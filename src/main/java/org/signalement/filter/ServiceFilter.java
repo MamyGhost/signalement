@@ -107,6 +107,7 @@ public class ServiceFilter implements Filter {
                 LOGGER.info("Logging Response :{}", response.getContentType());
                 return;
             }
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
  }else{
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
            }
