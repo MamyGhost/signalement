@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.security.MessageDigest;
 import org.signalement.repository.TokenmobileRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -49,7 +50,7 @@ public class UtilisateurControl {
           if (!sData.isEmpty()) {
             return new ResponseEntity<>(sData, HttpStatus.OK);
           } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
           }
         }
         
@@ -58,7 +59,7 @@ public class UtilisateurControl {
           Utilisateur uData = utilisateurRepository.findByUsernameAndPassword(utilisateur.getUsername(),utilisateur.getPassword());
 
           if (uData==null) {
-            throw new RuntimeException("Utilisateur inexistant: mop de passe ou utilisateur incorrect");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Utilisateur inexistant: mop de passe ou utilisateur incorrect");
           }else{
                Tokenmobile token = new Tokenmobile();
                token.setUtilisateur(uData);

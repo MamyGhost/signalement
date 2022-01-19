@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
@@ -38,7 +39,7 @@ public class SignalementControl {
           if (sData.isPresent()) {
             return new ResponseEntity<>(sData.get(), HttpStatus.OK);
           } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
           }
         }
         
@@ -50,7 +51,7 @@ public class SignalementControl {
           if (!sData.isEmpty()) {
             return new ResponseEntity<>(sData, HttpStatus.OK);
           } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
           }
         }
         
