@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="template" lang="en">
+
+<head>
+    <title>Information Signalement</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/post.css}">
+</head>
+
+<body class="app sidebar-mini rtl">
+    <div layout:fragment="content1">
+        <main class="app-content">
+            <div class="app-title">
+                <div>
+                    <h1>Signalement</h1>
+                    <p>Information/Detail</p>
+                </div>
+            </div>
+            <div class="row user">
+                <div class="col-md-12">
+                    <div class="tile">
+                        <section>
+                            <div class="timeline-post">
+                                <div class="post-media"><a href="#"><img 
+                                            th:src="@{/img/user.png}" alt="avatar" class="avatar"></a>
+                                    <div class="content">
+                                        <h4 style="font-family: Comic Sans MS" th:text="${sign.getUtilisateur().getUsername()}"></h4>
+                                    </div>  
+                                </div>
+                                <div class="post-content">
+                                    <h2 style="color: green;text-align: center;" th:text="${sign.getSignalnew().getTitre()}"></h2>
+                                    <p th:text="@{' Satus :'+${sign.getStatut().getEtat()}}"></p>
+                                    <p th:text="@{' Publié le :'+${sign.getDaty()}}"></p>
+                                    <p>Description:</p>
+                                    <p th:text="${sign.getDescription()}"></p>
+                                </div>
+                            </div>
+                            <div class="timeline-post">
+                                <div class="row justify-content-center">
+                                    <div class="col-6"> 
+                                        <th:block th:each="image:${photos}">
+                                            <img th:src="@{/img/{m}(m=${image.getPhoto()})}" style="width:100%">
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="tile-footer">
+                            <a class="btn btn-outline-success" href="/manageResource/signalementRsrc" role="button">Retour</a>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
