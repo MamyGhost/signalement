@@ -47,6 +47,13 @@ public class AdminController {
    
     }
     
+    
+    @GetMapping("/")
+    public String index(){
+        return "redirect:/admin/login";
+    }
+    
+    
     @PostMapping("/admin/traitementlogin")
     public String traitementlogin(@RequestParam(name="username") String username,@RequestParam(name="password") String password,HttpServletRequest request){
        List<Admin> admin = adminRepository.findAll();
