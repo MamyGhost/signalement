@@ -55,7 +55,12 @@ public class SignalementControl {
           }
         }
         
-
+    
+     @GetMapping("statut/{statut}/signalement")
+    public List<Signalement> listSignalementParStatut(@PathVariable("statut") int statut){
+    return signalementRepository.findSignalementByStatut(statut);
+}
+    
     @PostMapping("/wb/signalement")
     public ResponseEntity<Signalement> save(@RequestBody Signalement signalement){
         // inserte admin
