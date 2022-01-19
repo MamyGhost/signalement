@@ -33,8 +33,5 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     
     @Query("select s from Signalement s where s.statut.id= :statut")
     public List<Signalement>findSignalementByStatut(@Param("statut") int statut);
-
-    @Query("select s from Signalement s where s.type.id= :type")
-    public List<Signalement>chercherpartype(@Param("type") int type);
 }
 
