@@ -57,7 +57,6 @@ public class UtilisateurControl {
      @PostMapping("/wb/utilisateur/login")
         public ResponseEntity<String> authentification(@RequestBody Utilisateur utilisateur)  {
           Utilisateur uData = utilisateurRepository.findByUsernameAndPassword(utilisateur.getUsername(),utilisateur.getPassword());
-
           if (uData==null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Utilisateur inexistant: mop de passe ou utilisateur incorrect");
           }else{

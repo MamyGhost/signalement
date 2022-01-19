@@ -45,7 +45,6 @@ public class Utilisateur implements Serializable {
     private Integer id;
     @Column(name = "Username")
     private String username;
-    @JsonIgnore
     @Column(name = "Password")
     private String password;
     @JsonIgnore
