@@ -6,12 +6,15 @@
 package org.signalement.repository;
 import java.util.List;
 import org.signalement.entities.Region;
-import org.signalement.entities.Signalement;
+import org.signalement.entities.Userfront;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 /**
  *
  * @author Mamitiana
  */
 public interface RegionRepository extends JpaRepository<Region, Integer> {
-    
+    @Query("select r from Region r where r.nom= :nom")
+    public Region findRegionByNom(@Param("nom") String nom);
 }
