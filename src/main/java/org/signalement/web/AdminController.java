@@ -61,7 +61,7 @@ public class AdminController {
            if(ad.getUsername().compareTo(username)==0 && ad.getPassword().compareTo(password)==0)
            {
                request.getSession().setAttribute("admin",ad.getId());
-               return "table";
+               return "index";
            }
        }
        

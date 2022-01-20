@@ -8,6 +8,7 @@ package org.signalement.web;
 import java.util.List;
 
 import org.signalement.entities.Photo;
+import org.signalement.entities.Utilisateur;
 import org.signalement.entities.Region;
 import org.signalement.entities.Signalement;
 import org.signalement.entities.Userfront;
@@ -15,6 +16,7 @@ import org.signalement.repository.RegionRepository;
 import org.signalement.repository.SignalementRepository;
 import org.signalement.repository.UserfrontRepository;
 import org.signalement.repository.PhotoRepository;
+import org.signalement.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +43,11 @@ public class ResourceManagement {
     @Autowired
     private UserfrontRepository userFrontRepository;
 
-     @Autowired
+    @Autowired
+    private UtilisateurRepository userMobileRepository;
+
+
+    @Autowired
     private PhotoRepository photoRep;
     
     
@@ -59,6 +65,16 @@ public class ResourceManagement {
     public String manageSignalement(Model model){
         List<Signalement> lista=signalementRepository.findAll();
         model.addAttribute("signalement", lista);
+        model.addAttribute("auteur","");
+        return "signalementList";
+    }
+
+    @GetMapping("/manageResource/signalementRsrc/{id}")
+    public String manageSignalement(@PathVariable(name="id") Integer id,Model model){
+        Utilisateur user=userMobileRepository.findById(id).get();
+        List<Signalement> lista=user.getSignalementList();
+        model.addAttribute("signalement", lista);
+        model.addAttribute("auteur",user.getUsername());
         return "signalementList";
     }
 
@@ -126,5 +142,13 @@ public class ResourceManagement {
         return "detailSignalement";
    
     } 
+
+    @GetMapping("/manageResource/userMobileRsrc")
+    public String manageUserMobile(Model model){
+        List<Utilisateur> list=userMobileRepository.findAll();
+        model.addAttribute("mobileList", list);
+        return "userMobileList";
+    }
+
 
 }

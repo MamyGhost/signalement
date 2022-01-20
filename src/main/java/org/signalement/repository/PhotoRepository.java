@@ -5,7 +5,6 @@
  */
 package org.signalement.repository;
 import java.util.List;
-
 import org.signalement.entities.Photo;
 import org.signalement.entities.Signalement;
 import org.springframework.data.jpa.repository.JpaRepository;

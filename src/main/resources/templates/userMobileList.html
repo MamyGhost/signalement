@@ -15,7 +15,7 @@
           <div class="tile">
             <div class="row justify-content-center">
                 <div class="col-7">
-                  <h2 class="tile-title">Listes des Utilisateurs Front Office</h2>
+                  <h2 class="tile-title">Listes des Utilisateurs Mobile</h2>
                 </div>
             </div>
             <div class="row">
@@ -25,31 +25,29 @@
                     <tr>
                       <th>Id</th>
                       <th>User Name</th>
-                      <th>region</th>
                       <th></th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody class="clickb">
-                    <tr th:each="user:${fontUserList}">
+                    <tr th:each="user:${mobileList}">
                       <td th:text="${user.Id}"></td>
                       <td th:text="${user.getUsername}"></td>
-                      <td th:text="${user.getRegion.getNom}"></td>
                       <td>
-                        <a role="button" name="id" th:href="@{/manageResource/modifUF/{id}(id=${user.getId})}"
-                          class="btn btn-outline-primary">Modifier</a>
+                        <form th:action="@{/manageResource/signalementRsrc/{id}(id=${user.getId})}" method="get" >
+                          <button name="status" class="btn btn-succcess" value="0" type="submit" >Signalement faits</button> 
+                        </form>
                       </td>
                       <td>
-                        <form th:action="@{/manageResource/deleteUF/{id}(id=${user.getId})}" method="get" onsubmit="return confDelete(this)">
-                          <button name="status" class="btn btn-danger" value="0" type="submit" >Supprimer</button> 
-                        </form>
+                        <a role="button" name="id" href="#"
+                        class="btn btn-outline-danger">Bloquer</a>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-2">
-                <a role="button" name="id" href="/manageResource/formulaireUF"
+                <a role="button" name="id" href="/manageResource/formulaireMB"
                   class="btn btn-outline-success">Ajouter</a>
               </div>
             </div>
