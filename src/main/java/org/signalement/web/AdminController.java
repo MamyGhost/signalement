@@ -61,7 +61,7 @@ public class AdminController {
            if(ad.getUsername().compareTo(username)==0 && ad.getPassword().compareTo(password)==0)
            {
                request.getSession().setAttribute("admin",ad.getId());
-               return "index";
+               return "redirect:/admin/dashboard";
            }
        }
        
@@ -95,5 +95,39 @@ public class AdminController {
    
     }
     
-    
+     @GetMapping("/admin/dashboard")
+    public String dashboard(Model model){
+        List<Object[]> ru = regionRepository.findRegionup();
+        List<Object[]> rl = regionRepository.findRegionlow();
+        
+        String regionup="Aucun";
+        String regionlow="Aucun";
+        Long up=0L;
+        Long down=0L;
+        
+        for(Object[] ruu:ru){
+            if(up<(Long)ruu[1]){
+                up=(Long)ruu[1];
+                regionup=(String)ruu[0];
+            }
+        }
+        
+        for(Object[] rll:rl){
+            if(down<(Long)rll[1]){
+                down=(Long)rll[1];
+                regionlow=(String)rll[0];
+            }
+        }
+            
+         model.addAttribute("regionup",regionup);
+         model.addAttribute("regionlow",regionlow);
+         model.addAttribute("up",up);
+         model.addAttribute("down",down);
+         
+         
+         return "index";
+      
+        }
+        
+  
 }
