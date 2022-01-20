@@ -33,7 +33,7 @@
                   <td th:text="${s.getSignalnew().getTitre()}"></td>
                   <td th:text="${s.getDaty}"></td>
                   <td th:text="${s.getType().getNom()}"></td>
-                  <td th:text="${s.getRegion.getNom}"></td>
+                  <td th:text="${s.getRegion != null}? ${s.getRegion.getNom}: 'Aucun' "></td>
                   <td>
                     <a role="button" name="id" th:href="@{/manageResource/viewSIGN/{id}(id=${s.getId})}"
                     class="btn btn-outline-primary">Voir detail</a>
