@@ -50,12 +50,53 @@ function setlinechart(className,data){
     });
 }
 
+function setpiechart(className,data){
+
+   const pie_chart = document.getElementById(className).getContext('2d');
+    // pie_chart.height = 100;
+    new Chart(pie_chart, {
+        type: 'pie',
+        data: {
+            defaultFontFamily: 'Poppins',
+            datasets: [{
+                data: data,
+                borderWidth: 0, 
+                backgroundColor: [
+                    "rgba(0, 171, 197, .9)",
+                    "rgba(0, 171, 197, .7)",
+                    "rgba(0, 171, 197, .5)",
+                    "rgba(0,0,0,0.07)"
+                ],
+                hoverBackgroundColor: [
+                    "rgba(0, 171, 197, .9)",
+                    "rgba(0, 171, 197, .7)",
+                    "rgba(0, 171, 197, .5)",
+                    "rgba(0,0,0,0.07)"
+                ]
+
+            }],
+            labels: [
+                "one",
+                "two",
+                "three", 
+                "four"
+            ]
+        },
+        options: {
+            responsive: true, 
+            legend: false, 
+            maintainAspectRatio: false
+        }
+    });
+}
+
             $.get("http://localhost/sagoor2/index.php/Stat/stat")
                 .done(function(data,text,jqxhr){
                     /*Dessinner les charts*/
                     var lista = JSON.parse(data);
                     console.log(lista);
                     setlinechart("lineChart_3",lista[0]);
+                    setpiechart("pie_chart",lista[1]);
                 })
                 .fail(function(jqxhr){
                     alert('An error, please insert data');
