@@ -17,4 +17,12 @@ import org.springframework.data.repository.query.Param;
 public interface RegionRepository extends JpaRepository<Region, Integer> {
     @Query("select r from Region r where r.nom= :nom")
     public Region findRegionByNom(@Param("nom") String nom);
+    
+    @Query("select s.region.nom,count(s) from Signalement s where s.statut.etat='Terminé' group by s.region.nom")
+    public List<Object[]> findRegionup();
+    
+    @Query("select s.region.nom,count(s) from Signalement s where s.statut.etat='Nouveau' or s.statut.etat='En cours'  group by s.region.nom")
+    public List<Object[]> findRegionlow();
+    
+    
 }

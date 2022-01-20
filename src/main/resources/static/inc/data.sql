@@ -157,6 +157,8 @@ drop database signalement;
 
 
 
+
+
 <script type="javascript">
             // On initialise la latitude et la longitude de Paris (centre de la carte)
             var lat = 48.852969;
