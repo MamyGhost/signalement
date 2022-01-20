@@ -88,12 +88,12 @@ public class UserFrontControl {
         
         @GetMapping("/userfront")
     public List<Userfront> list() {
-    return userRepository.findAll();
+    return userfrontRepository.findAll();
 }
 
     @GetMapping("/userfront/{id}")
     public Userfront listUser(@PathVariable("id") Integer id){
-    return userRepository.findById(id).get();
+    return userfrontRepository.findById(id).get();
 }
      
 }

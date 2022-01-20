@@ -16,8 +16,8 @@ import org.springframework.data.repository.query.Param;
  */
 public interface UserfrontRepository extends JpaRepository<Userfront, Integer> {
     @Query("select u from Userfront u where u.username= :username and u.password= :password and u.region.id= :region")
-    public Userfront findUserfrontlogin(@Param("username") String username, @Param("password") String password,@Param("idregion") Integer region);
-    @Query("select u from Userfront u where u.region= :region")
+    public Userfront findUserfrontlogin(@Param("username") String username, @Param("password") String password,@Param("region") Integer region);
+    @Query("select u from Userfront u where u.region.id= :region")
     public List<Userfront>findUserfrontloginByRegion(@Param("region") Integer region);
 }
 
