@@ -23,7 +23,7 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     public List<Signalement>  findByRegionIsNull();
     
     @Query("SELECT s FROM Signalement s WHERE s.type.id = :idtype")
-   List<Signalement>  chercherpartype(@Param("idtype") int idtype);
+    List<Signalement>  chercherpartype(@Param("idtype") int idtype);
 
     @Query("select s from Signalement s where s.type.id= :type")
     public List<Signalement>findSignalementByType(@Param("type") int type);

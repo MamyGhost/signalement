@@ -50,8 +50,18 @@ function setlinechart(className,data){
         }
     });
 }
+function loadEntete(data){
+    // const mobile = document.getElementById("mobile");
+    // const sign = document.getElementById("signalement");
+    console.log(mobile);
+    // mobile.innerHTML=data[0];
+    // sign.innerHTML=data[1];    
+    $("#mobile").text(data[0]);
+    $("#signalement").text(data[1]);
 
-function setpiechart(className,data){
+}
+
+function setpiechart(className,data,label){
  const doughnut_chart = document.getElementById(className).getContext('2d');
     // doughnut_chart.height = 100;
     new Chart(doughnut_chart, {
@@ -65,22 +75,15 @@ function setpiechart(className,data){
                     "rgba(0, 0, 128, .9)",
                     "rgba(0, 0, 128, .7)",
                     "rgba(0, 0, 128, .5)",
-                    "rgba(0, 0, 128, .4)"
                 ],
                 hoverBackgroundColor: [
-                    "rgba(0, 0, 128, .5)",
-                    "rgba(0, 0, 128, .4)",
-                    "rgba(0, 0, 128, .3)",
-                    "rgba(0, 0, 128, .2)"
+                    "rgba(0, 0, 128, .25)",
+                    "rgba(0, 0, 128, .104)",
+                    "rgba(0, 0, 128, .20)",
                 ]
 
             }],
-            // labels: [
-            //     "green",
-            //     "green",
-            //     "green",
-            //     "green"
-            // ]
+            labels: label
         },
         options: {
             responsive: true,
@@ -96,7 +99,8 @@ function setpiechart(className,data){
                     var lista = JSON.parse(string);
                     console.log(lista);
                     setlinechart("lineChartDemo",lista[0]);
-                    setpiechart("pieChartDemo",lista[1]);
+                    setpiechart("pieChartDemo",lista[1],lista[2]);
+                    loadEntete(lista[3]);
                 })
                 .fail(function(jqxhr){
                     alert('An error, please insert data');
