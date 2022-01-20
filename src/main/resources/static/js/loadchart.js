@@ -62,25 +62,23 @@ function setpiechart(className,data){
                 data: data,
                 borderWidth: 0, 
                 backgroundColor: [
-                    "rgba(0, 0, 128, .9)",
-                    "rgba(0, 0, 128, .7)",
-                    "rgba(0, 0, 128, .5)",
-                    "rgba(0, 0, 128, .4)"
+                    "rgba(53, 255, 26, 0.8)",
+                    "rgba(255, 66, 0, 0.8)",
+                    "rgba(6, 173, 238, 0.8)"
                 ],
                 hoverBackgroundColor: [
-                    "rgba(0, 0, 128, .5)",
-                    "rgba(0, 0, 128, .4)",
-                    "rgba(0, 0, 128, .3)",
-                    "rgba(0, 0, 128, .2)"
+                    "rgba(56, 25, 120, .5)",
+                    "rgba(19,20, 100, .4)",
+                    "rgba(2, 1, 128, .3)"
                 ]
 
             }],
-            // labels: [
-            //     "green",
-            //     "green",
-            //     "green",
-            //     "green"
-            // ]
+             labels: [
+                 "vol",
+                 "accidents",
+                 "autre"
+
+             ]
         },
         options: {
             responsive: true,
