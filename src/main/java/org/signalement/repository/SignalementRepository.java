@@ -28,10 +28,69 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     @Query("select s from Signalement s where s.type.id= :type")
     public List<Signalement>findSignalementByType(@Param("type") int type);
     
-    @Query("select s from Signalement s where s.daty= :daty")
-    public List<Signalement>findSignalementByDaty(@Param("daty") String daty);
+    @Query( value = "select SUM(CASE month(s.daty)\n" +
+"            WHEN 1 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Janvier\",\n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 2 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Fevrier\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 3 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Mars\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 4 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Avril\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 5 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Mai\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 6 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Juin\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 7 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Juillet\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 8 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Aout\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 9 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Septembre\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 10 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Octobre\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 11 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Novembre\", \n" +
+"            SUM(CASE month(s.daty)\n" +
+"            WHEN 12 THEN 1\n" +
+"            ELSE 0\n" +
+"            END) \"Decembre\"\n" +
+"            FROM Signalement s where year(s.daty)=year(:now)",
+            nativeQuery=true)
+            public List<Object[]>findstatmonthly(@Param("now") Date now);
+            
+            @Query(value="select\n" +
+" 	CASE\n" +
+" 		WHEN isa is null THEN 0\n" +
+" 		ELSE isa\n" +
+" 	END \"isa\"\n" +
+" from type left join (select count(id) as isa,type as t from signalement group by type) as s on id=s.t;",nativeQuery=true)
+    public List<Integer>findGroupByType();
+            
+            
     
-    @Query("select s from Signalement s where s.statut.id= :statut")
-    public List<Signalement>findSignalementByStatut(@Param("statut") int statut);
+    
 }
+
 

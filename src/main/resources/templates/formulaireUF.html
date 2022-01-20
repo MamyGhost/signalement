@@ -15,7 +15,7 @@
           <div class="tile">
             <div class="row justify-content-center">
               <div class="col">
-                <h3 class="tile-title">Creation d'utilisateur Front</h3>
+                <h3 class="tile-title" style="font-family: Snell Roundhand, cursive;color: green;">Creation d'utilisateur Front</h3>
                   <form id="create" th:action="@{/manageResource/saveUF}" th:object="${userfront}" method="post"> 
                   <div class="form-group">
                     <label class="col-form-label" for="inputDefault">User name</label>
@@ -37,8 +37,17 @@
                     <label class="col-form-label" for="mdp2">Confirmé le nouveau mot de passe</label>
                     <input name="mdp2" id="mdp2" class="form-control" type="password" required>
                   </div>
-                  <div class="tile-footer">
-                    <button  class="btn btn-primary" type="submit">Submit</button>
+                  <div class="tile-footer justify-content-between">
+                    <div class="row">
+                        <div class="col-auto mr-auto">
+                           <a role="button" name="id" href="/manageResource/userFrontRsrc" class="btn btn-outline-success">Retour</a>
+
+                        </div>
+                        <div class="col-auto">
+                          
+                            <button  class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                      </div>
                   </div>
                   </form>
               </div>
