@@ -15,7 +15,7 @@
           <div class="tile">
             <div class="row justify-content-center">
               <div class="col">
-                <h3 class="tile-title">Modification information</h3>
+                <h3 class="tile-title" style="font-family: Snell Roundhand, cursive;color: green;">Modification information</h3>
                 <form  id="modif" action="/manageResource/updateUF" method="get"> 
                   <div class="form-group">
                     <fieldset disabled="">
@@ -43,9 +43,21 @@
                     <label class="col-form-label" for="mdp2">Confirmer le nouveau mot de passe</label>
                     <input name="mdp2" class="form-control" id="mdp2" type="password" required>
                   </div>
-                  <div class="tile-footer">
-                    <button name="id" class="btn btn-primary" th:value="${user.getId()}" type="submit">Submit</button>
+                  <div class="tile-footer justify-content-between ">
+                     <div class="row">
+                        <div class="col-auto mr-auto">
+                           <a role="button" name="id" href="/manageResource/userFrontRsrc" class="btn btn-outline-success">Retour</a>
+
+                        </div>
+                        <div class="col-auto">
+                          
+                            <button name="id" class="btn btn-primary" th:value="${user.getId()}" type="submit">Submit</button>
+                        </div>
+                      </div>
+                   
+                    
                     </div>
+
                   </form>
               </div>
             </div>

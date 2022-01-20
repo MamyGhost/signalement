@@ -65,7 +65,7 @@ public class ResourceManagement {
     public String manageSignalement(Model model){
         List<Signalement> lista=signalementRepository.findAll();
         model.addAttribute("signalement", lista);
-        model.addAttribute("auteur","");
+        model.addAttribute("auteur","vide");
         return "signalementList";
     }
 
