@@ -118,13 +118,12 @@ public class AdminController {
                 regionlow=(String)rll[0];
             }
         }
-            
+            System.out.println("");
          model.addAttribute("regionup",regionup);
          model.addAttribute("regionlow",regionlow);
          model.addAttribute("up",up);
          model.addAttribute("down",down);
-         
-         
+ 
          return "index";
       
         }
