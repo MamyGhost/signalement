@@ -31,8 +31,8 @@
                           <tr>
                             <th>Titre</th>
                             <th>Type</th>
-                            <th>Longitude</th>
                             <th>Latitude</th>
+                            <th>Longitude</th>
                             <th>Region</th>
                             <th></th>
                             <th></th>
@@ -73,14 +73,14 @@
         </script>
 	<script th:inline="javascript">
             // On initialise la latitude et la longitude de Paris (centre de la carte)
-            var lat = 48.852969;
-            var lon = 2.349903;
+            var lat = -19.755;
+            var lon = 46.78781;
             var macarte = null;
             alert(dataLayer.length);
             // Fonction d'initialisation de la carte
             function initMap() {
                 // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
-                macarte = L.map('map').setView([lat, lon], 11);
+                macarte = L.map('map').setView([lat, lon], 6);
                 // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
                 L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
                     // Il est toujours bien de laisser le lien vers la source des données
