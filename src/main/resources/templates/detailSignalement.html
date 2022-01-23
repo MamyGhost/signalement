@@ -32,11 +32,14 @@
                                     <h2 style="color: green;text-align: center;" th:text="${sign.getSignalnew().getTitre()}"></h2>
                                     <p th:text="@{' Satus :'+${sign.getStatut().getEtat()}}"></p>
                                     <p th:text="@{' Publié le :'+${sign.getDaty()}}"></p>
-                                    <th:block th:if="${sign.getRegion() != null}" >
-                                          <p th:text="@{' Région :'+${sign.getRegion().getNom()}}"></p>
+                                    <th:block th:if="${sign.getRegion() !=null}" >
+                                        <p th:text="@{' Region :'+${sign.getRegion().getNom()}}"></p> 
+                                    </th:block>
+                                    <th:block th:unless="${sign.getRegion() !=null}" >
+                                        <p>Region : Aucun</p> 
                                     </th:block>
                                     <p>Description:</p>
-                                    <p th:text="${sign.getDescription()}"></p>
+                                    <p style="font-size: 20px;text-indent: 50px;" th:text="${sign.getDescription()}"></p>
                                 </div>
                             </div>
                             <div class="timeline-post">
@@ -50,7 +53,8 @@
                             </div>
                         </section>
                         <div class="tile-footer">
-                            <a class="btn btn-outline-success" href="/manageResource/signalementRsrc" role="button">Retour</a>
+                            <a th:if="${user == 0 }"  class="btn btn-outline-success" th:href="@{/manageResource/signalementRsrc/{page}(page=${page})}" role="button">Retour</a>
+                            <a th:unless="${user == 0 }"  class="btn btn-outline-success" th:href="@{/manageResource/signalementUserRsr/{id}/{page}(id=${user},page=${page})}" role="button">Retour</a>
                         </div>
                         </form>
                     </div>
