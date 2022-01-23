@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -42,7 +39,6 @@ public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Id")
@@ -85,11 +81,8 @@ public class Utilisateur implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) throws Exception {
+    public void setPassword(String password) {
         this.password = password;
-        Pattern frenchPattern = Pattern.compile("(?i)[ùûüÿàâæçéèêëïîôœ]");
-        if(frenchPattern.matcher(password).find()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"le Mot de passe ne doit pas contenir d' accent");
-        if(password.length()<8)  throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"le Mot de passe doit contenir au moins 8 caracteres");
     }
 
     @XmlTransient

@@ -139,14 +139,22 @@ insert into region values
 	(null,"Anosy",6);
 
 insert into signalNew values(null,"Accident de voitures su la route de RN2");
-insert into signalNew values(null,"Accident de voitures su la route de RN1");
+insert into signalNew values(null,"Vols a main armé");
 
 insert into statut values
 	(null,"Nouveau"),
 	(null,"En cours"),
 	(null,"Terminé");
 
+
+insert into utilisateur values (null,"Rakoto","1234");
 insert into signalement values(null,1,1,"Aucun description",1,3,3,"2022-01-15",-19.715,46.75781);
+insert into signalement values(null,1,1,"Tapaka matetika ny jiro aty aminay de betsaka ireo mpanararaotra",1,2,1,"2022-01-20",-19.715,46.75781);
+
+insert into signalement values(null,1,1,"Tapaka matetika ny jiro aty aminay de betsaka ireo mpanararaotra",1,3,3,"2021-01-15",-19.715,46.75781);
+insert into signalement values(null,3,2,"Malgres le fait que les policiers soient arrivés a temps, les malfrats ont pu s'echapper ",1,3,3,"2022-01-15",null,null);
+insert into signalement values(null,1,1,"L'arbre a ete coupé par la foudre puis a atteri sur plusieurs maison qui a engendré la chutte des ces dernières",1,3,3,"2022-01-15",-19.715,46.75781);
+insert into signalement values(null,1,1,"dafhaf fajshdfbajye cdsjhfaue sdjhcfwuiefcw wkcjefhd cjhwcuif wfw bf weuhcw fwjhefuwefc cwjehficwhfw",1,null,3,"2022-01-15",-19.715,46.75781);
 
 insert into photo values
 	(null,1,"test.png"),

@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import org.signalement.entities.Admin;
 import org.signalement.repository.AdminRepository;
-import org.signalement.repository.TypeRepository;
-import org.signalement.repository.UtilisateurRepository;
 import org.signalement.repository.SignalementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,12 +31,6 @@ public class AdminControl {
     
     @Autowired
     private SignalementRepository signalementRepository;
-
-    @Autowired
-    private TypeRepository typeRepository;
-
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
     
     @GetMapping("/wb/signalement/stat")
     public List<Object[]> stat(){
@@ -46,13 +38,8 @@ public class AdminControl {
         List<Integer> type=signalementRepository.findGroupByType();
         List<Object[]> mensuel=signalementRepository.findstatmonthly(new Date());
         Object[] grouptype=type.toArray();
-        List<Long> stat=new ArrayList<Long>();
-        stat.add(signalementRepository.count());
-        stat.add(utilisateurRepository.count());
         ret.add(mensuel.get(0));
         ret.add(grouptype);
-        ret.add(typeRepository.getLabelType().toArray());
-        ret.add(stat.toArray());
         return ret;
     }
 

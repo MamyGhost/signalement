@@ -7,11 +7,7 @@ package org.signalement.filter;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -21,10 +17,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 import org.signalement.entities.Tokenfront;
 import org.signalement.entities.Tokenmobile;
-
+import org.signalement.entities.Userfront;
+import org.signalement.repository.SignalementRepository;
 import org.signalement.repository.TokenfrontRepository;
 import org.signalement.repository.TokenmobileRepository;
 import org.signalement.repository.UtilisateurRepository;
@@ -77,11 +74,8 @@ public class ServiceFilter implements Filter {
         LOGGER.info("This Filter is only called when request is mapped for /customer resource");
 
         //call next filter in the filter chain
-        String[] hors={"/wb/userFront/login","/wb/utilisateur/login","/wb/signalement/stat","/wb/signin/utilisateur"};
-        List<String> myList = new ArrayList<String>(Arrays.asList(hors));
-
          String path = request.getRequestURI();
-        if (myList.contains(path)){
+        if ("/wb/userFront/login".equals(path) || "/wb/utilisateur/login".equals(path) || "/wb/signalement/stat".equals(path) ){
             filterChain.doFilter(request, response);
             return;
         }
@@ -91,12 +85,9 @@ public class ServiceFilter implements Filter {
              return;
          } 
          System.out.println("TOKENNNNNNNNN: "+auth);
-         if(auth.contains("Bearer ")==false)  response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"le token ne contient pas d' entete Bearer");
         String authtoken = auth.replace("Bearer ","");
          System.out.println("TOKENNNNNNNNN 2: "+authtoken);
            SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
-           
-           if(path.contains("/wb/userFront/")){
          Tokenfront t = tokenfrontRepository.findByToken(authtoken);
              System.out.println("TOKENFRONT : "+t);
              if( t != null){
@@ -106,10 +97,7 @@ public class ServiceFilter implements Filter {
                        LOGGER.info("Logging Response :{}", response.getContentType());
                        return;
                    }
-               response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
              }
-           }
-           else{
              Tokenmobile tm = tokenmobileRepository.findByToken(authtoken);
              System.out.println("TOKENMOBILE : "+tm);
            if( tm != null){
@@ -120,10 +108,11 @@ public class ServiceFilter implements Filter {
                 return;
             }
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
- }
+ }else{
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
            }
            
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
+        
   
     }
 

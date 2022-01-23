@@ -6,7 +6,6 @@
 package org.signalement.repository;
 import org.signalement.entities.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 /**
 /**
  *
@@ -14,8 +13,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
     Utilisateur findByUsernameAndPassword(String us,String pass);
-    
-    Utilisateur findByUsername(String us);
-    
-   
 }
