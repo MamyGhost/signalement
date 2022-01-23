@@ -61,20 +61,42 @@ public class ResourceManagement {
         return "userFrontList";
     }
 
-    @GetMapping("/manageResource/signalementRsrc")
-    public String manageSignalement(Model model){
-        List<Signalement> lista=signalementRepository.findAll();
+    // @GetMapping("/manageResource/signalementRsrc/{pagination}")
+    // public String manageSignalement(@PathVariable(name="pagination") Integer page,Model model){
+    //     List<Signalement> lista=signalementRepository.findAll();
+    //     model.addAttribute("signalement", lista);
+    //     model.addAttribute("auteur","vide");
+    //     return "signalementList";
+    // }
+
+    @GetMapping("/manageResource/signalementRsrc/{pagination}")
+    public String manageSignalement(@PathVariable(name="pagination") Integer page,Model model){
+        int nbrElement=5;
+        double isa=signalementRepository.count();
+        int pageNumber=(int)(Math.ceil(isa/nbrElement));
+        int first=page*nbrElement;
+        List<Signalement> lista=signalementRepository.findWithPagination(first,nbrElement);
         model.addAttribute("signalement", lista);
         model.addAttribute("auteur","vide");
+        model.addAttribute("nbrPage",pageNumber);
+        model.addAttribute("page",page);
         return "signalementList";
     }
 
-    @GetMapping("/manageResource/signalementRsrc/{id}")
-    public String manageSignalement(@PathVariable(name="id") Integer id,Model model){
+
+    @GetMapping("/manageResource/signalementUserRsr/{id}/{page}")
+    public String manageSignalementUser(@PathVariable(name="id") Integer id,@PathVariable(name="page") Integer page,Model model){
+        int nbrElement=5;
         Utilisateur user=userMobileRepository.findById(id).get();
-        List<Signalement> lista=user.getSignalementList();
+        double isa=user.getSignalementList().size();
+        int pageNumber=(int)(Math.ceil(isa/nbrElement));
+        int first=page*nbrElement;
+        List<Signalement> lista=signalementRepository.findByUserWithPagination(id,first,nbrElement);
         model.addAttribute("signalement", lista);
         model.addAttribute("auteur",user.getUsername());
+        model.addAttribute("nbrPage",pageNumber);
+        model.addAttribute("page",page);
+        model.addAttribute("user",id);
         return "signalementList";
     }
 
@@ -109,6 +131,24 @@ public class ResourceManagement {
    
     }
 
+    @GetMapping("/manageResource/formulaireMB")
+    public String createMB(Model model){
+        Utilisateur user=new Utilisateur();
+        model.addAttribute("utilisateur",user);
+        return "formulaireMB";
+   
+    }
+
+    @PostMapping("/manageResource/saveMB")
+    public String insertMB(@ModelAttribute("utilisateur") Utilisateur user,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+
+        }
+        userMobileRepository.save(user);
+        return "redirect:/manageResource/userMobileRsrc";
+   
+    } 
+
     @PostMapping("/manageResource/saveUF")
     public String insertUF(@ModelAttribute("userfront") Userfront user,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -133,12 +173,26 @@ public class ResourceManagement {
    
     } 
 
-    @GetMapping("/manageResource/viewSIGN/{id}")
-    public String detailSIGN(@PathVariable(name="id") Integer id,Model model){
+    @GetMapping("/manageResource/viewSIGN/{id}/{page}")
+    public String detailSIGN(@PathVariable(name="id") Integer id,@PathVariable(name="page") Integer page,Model model){
         Signalement sign=signalementRepository.findById(id).get();
         List<Photo> photos=photoRep.findBySignalement(sign);
         model.addAttribute("sign",sign);
         model.addAttribute("photos",photos);
+        model.addAttribute("user",0);
+        model.addAttribute("page",page);
+        return "detailSignalement";
+   
+    } 
+
+    @GetMapping("/manageResource/viewSignUser/{id}/{user}/{page}")
+    public String detailSignUser(@PathVariable(name="id") Integer id,@PathVariable(name="user") Integer user,@PathVariable(name="page") Integer page,Model model){
+        Signalement sign=signalementRepository.findById(id).get();
+        List<Photo> photos=photoRep.findBySignalement(sign);
+        model.addAttribute("sign",sign);
+        model.addAttribute("photos",photos);
+        model.addAttribute("user",user);
+        model.addAttribute("page",page);
         return "detailSignalement";
    
     } 
