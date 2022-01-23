@@ -6,6 +6,7 @@
 package org.signalement.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -56,6 +57,7 @@ public class Signalement implements Serializable {
     @Column(name = "Longitude")
     private BigDecimal longitude;
     @JoinColumn(name = "Utilisateur", referencedColumnName = "Id")
+    @JsonIgnore
     @ManyToOne
     private Utilisateur utilisateur;
     @JoinColumn(name = "Type", referencedColumnName = "Id")

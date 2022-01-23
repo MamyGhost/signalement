@@ -16,6 +16,7 @@ import org.signalement.entities.Signalement;
 import org.signalement.repository.AdminRepository;
 import org.signalement.repository.RegionRepository;
 import org.signalement.repository.SignalementRepository;
+import org.signalement.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,12 +39,23 @@ public class AdminController {
     @Autowired
     private RegionRepository regionRepository;
     
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+    
     @GetMapping("/admin/login")
     public String login(@RequestParam(name="error", defaultValue="0") int error,Model model ){
         if(error == 1){
             model.addAttribute("error", 1);
         }
          return "login";
+   
+    }
+    
+    @GetMapping("/admin/logout")
+    public String logout(HttpServletRequest request){
+        
+        request.getSession().invalidate();
+        return "redirect:/admin/login";
    
     }
     
@@ -99,6 +111,8 @@ public class AdminController {
     public String dashboard(Model model){
         List<Object[]> ru = regionRepository.findRegionup();
         List<Object[]> rl = regionRepository.findRegionlow();
+        long totalusers=utilisateurRepository.count();
+        long totalsignal=signalementRepository.count();
         
         String regionup="Aucun";
         String regionlow="Aucun";
@@ -123,6 +137,8 @@ public class AdminController {
          model.addAttribute("regionlow",regionlow);
          model.addAttribute("up",up);
          model.addAttribute("down",down);
+         model.addAttribute("totalusers", totalusers);
+         model.addAttribute("totalsignal", totalsignal);
  
          return "index";
       

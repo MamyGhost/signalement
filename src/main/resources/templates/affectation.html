@@ -17,6 +17,15 @@
   <body class="app sidebar-mini rtl">
     <div layout:fragment="content1">
         <main class="app-content">
+             <div class="app-title">
+                <div>
+                  <h1><i class="fa fa-map-marker"></i> Affectation</h1>
+                </div>
+                <ul class="app-breadcrumb breadcrumb">
+                  <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                  <li class="breadcrumb-item"><a style="color: green">Affectation</a></li>
+                </ul>
+            </div>
             <div class="row justify-content-center">
                 <div class="col-md-10">
                      <div id="map">
@@ -76,7 +85,7 @@
             var lat = -19.755;
             var lon = 46.78781;
             var macarte = null;
-            alert(dataLayer.length);
+          //  alert(dataLayer.length);
             // Fonction d'initialisation de la carte
             function initMap() {
                 // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"

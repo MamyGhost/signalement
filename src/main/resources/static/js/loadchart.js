@@ -50,18 +50,8 @@ function setlinechart(className,data){
         }
     });
 }
-function loadEntete(data){
-    // const mobile = document.getElementById("mobile");
-    // const sign = document.getElementById("signalement");
-    console.log(mobile);
-    // mobile.innerHTML=data[0];
-    // sign.innerHTML=data[1];    
-    $("#mobile").text(data[0]);
-    $("#signalement").text(data[1]);
 
-}
-
-function setpiechart(className,data,label){
+function setpiechart(className,data){
  const doughnut_chart = document.getElementById(className).getContext('2d');
     // doughnut_chart.height = 100;
     new Chart(doughnut_chart, {
@@ -72,18 +62,23 @@ function setpiechart(className,data,label){
                 data: data,
                 borderWidth: 0, 
                 backgroundColor: [
-                    "rgba(0, 0, 128, .9)",
-                    "rgba(0, 0, 128, .7)",
-                    "rgba(0, 0, 128, .5)",
+                    "rgba(53, 255, 26, 0.8)",
+                    "rgba(255, 66, 0, 0.8)",
+                    "rgba(6, 173, 238, 0.8)"
                 ],
                 hoverBackgroundColor: [
-                    "rgba(0, 0, 128, .25)",
-                    "rgba(0, 0, 128, .104)",
-                    "rgba(0, 0, 128, .20)",
+                    "rgba(56, 25, 120, .5)",
+                    "rgba(19,20, 100, .4)",
+                    "rgba(2, 1, 128, .3)"
                 ]
 
             }],
-            labels: label
+             labels: [
+                 "vol",
+                 "accidents",
+                 "autre"
+
+             ]
         },
         options: {
             responsive: true,
@@ -99,8 +94,7 @@ function setpiechart(className,data,label){
                     var lista = JSON.parse(string);
                     console.log(lista);
                     setlinechart("lineChartDemo",lista[0]);
-                    setpiechart("pieChartDemo",lista[1],lista[2]);
-                    loadEntete(lista[3]);
+                    setpiechart("pieChartDemo",lista[1]);
                 })
                 .fail(function(jqxhr){
                     alert('An error, please insert data');
