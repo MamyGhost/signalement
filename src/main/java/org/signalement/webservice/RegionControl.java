@@ -43,17 +43,17 @@ public class RegionControl {
      @Autowired
     private RegionRepository regionRepository;
      
-     @GetMapping("/wb/region/{id}/signalement")
-        public ResponseEntity<List<Signalement>> getSignalementById(@PathVariable("id") int id) {
-          Region r = regionRepository.findById(id).get();
-          List<Signalement> sData = r.getSignalementList();
+     // @GetMapping("/wb/region/{id}/signalement")
+     //    public ResponseEntity<List<Signalement>> getSignalementById(@PathVariable("id") int id) {
+     //      Region r = regionRepository.findById(id).get();
+     //      List<Signalement> sData = r.getSignalementList();
 
-          if (!sData.isEmpty()) {
-            return new ResponseEntity<>(sData, HttpStatus.OK);
-          } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
-          }
-        }
+     //      if (!sData.isEmpty()) {
+     //        return new ResponseEntity<>(sData, HttpStatus.OK);
+     //      } else {
+     //        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
+     //      }
+     //    }
         
         
      

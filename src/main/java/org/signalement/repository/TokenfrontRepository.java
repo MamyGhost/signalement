@@ -9,6 +9,8 @@ import org.signalement.entities.Tokenfront;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,4 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface TokenfrontRepository extends JpaRepository<Tokenfront, Integer> {
         
      public Tokenfront findByToken(String token);
+
+     @Query("select t from Tokenfront t where t.userfront.id= :userfront")
+    public Tokenfront findToken(@Param("userfront") int userfront);
 }

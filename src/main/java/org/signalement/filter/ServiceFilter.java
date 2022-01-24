@@ -75,7 +75,11 @@ public class ServiceFilter implements Filter {
 
         //call next filter in the filter chain
          String path = request.getRequestURI();
+<<<<<<< Updated upstream
         if ("/wb/userFront/login".equals(path) || "/wb/utilisateur/login".equals(path)) {
+=======
+        if ("/wb/userfront/login".equals(path) || "/wb/utilisateur/login".equals(path) || "/wb/signalement/stat".equals(path) ){
+>>>>>>> Stashed changes
             filterChain.doFilter(request, response);
             return;
         }

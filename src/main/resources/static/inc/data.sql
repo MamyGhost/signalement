@@ -34,6 +34,7 @@ create table userfront(
 	FOREIGN KEY(Region) REFERENCES region(Id)
 )ENGINE=InnoDB;
 
+
 create table tokenfront(
 	 Id INT NOT NULL AUTO_INCREMENT primary key,
 	 Userfront int,
@@ -101,6 +102,27 @@ insert into admin values
 insert into utilisateur values
 	(null,"user","0000");
 
+insert into userfront values(null,"user3","user3",3);
+insert into userfront values(null,"user4","user4",4);
+insert into userfront values(null,"user5","user5",5);
+insert into userfront values(null,"user6","user6",6);
+insert into userfront values(null,"user7","user7",7);
+insert into userfront values(null,"user8","user8",8);
+insert into userfront values(null,"user9","user9",9);
+insert into userfront values(null,"user10","user10",10);
+insert into userfront values(null,"user11","user11",11);
+insert into userfront values(null,"user12","user12",12);
+insert into userfront values(null,"user13","user13",13);
+insert into userfront values(null,"user14","user14",14);
+insert into userfront values(null,"user15","user15",15);
+insert into userfront values(null,"user16","user16",16);
+insert into userfront values(null,"user17","user17",17);
+insert into userfront values(null,"user18","user18",18);
+insert into userfront values(null,"user19","user19",19);
+insert into userfront values(null,"user20","user20",20);
+insert into userfront values(null,"user21","user21",21);
+insert into userfront values(null,"user22","user22",22);
+
 insert into type values
 	(null,"vol"),
 	(null,"accident"),
@@ -140,13 +162,26 @@ insert into region values
 
 insert into signalNew values(null,"Accident de voitures su la route de RN2");
 insert into signalNew values(null,"Accident de voitures su la route de RN1");
+insert into signalNew values(null,"vol faites par des Gang");
+insert into signalNew values(null,"Enlèvement");
+
 
 insert into statut values
 	(null,"Nouveau"),
 	(null,"En cours"),
 	(null,"Terminé");
 
+update signalement set signalnew=3 where id=3;
+
 insert into signalement values(null,1,1,"Aucun description",1,3,3,"2022-01-15",-19.715,46.75781);
+insert into signalement values(null,2,1,"grave accident",1,1,2,"2022-10-26",-19.012,46.82315);
+insert into signalement values(null,3,1,"vol d'un coq pure sang Bruce Lee",2,1,1,"2022-10-30",-19.412,46.72315);
+insert into signalement values(null,3,1,"vol d'un voiture",2,22,1,"2022-10-29",-19.325,46.42153);
+insert into signalement values(null,2,1,"Grave accident",3,2,2,"2022-09-10",-21.325,54.42153);
+insert into signalement values(null,2,1,"Grave accident",3,4,2,"2022-09-13",-18.325,44.42153);
+insert into signalement values(null,2,1,"Grave accident",1,null,2,"2022-06-10",-21.687,54.96358);
+insert into signalement values(null,4,1,"Kidnapping d'un enfant",1,null,3,"2022-06-26",-16.857,46.42153);
+insert into signalement values(null,4,1,"Kidnapping d'un enfant",2,4,3,"2022-10-27",-19.857,46.49123);
 
 insert into photo values
 	(null,1,"test.png"),
@@ -155,7 +190,7 @@ insert into photo values
 drop database signalement;
 
 
-
+select * from signalement s join userfront u on s.region=u.region join tokenfront t on u.id=t.userfront where t.token='a0540b15d3810565f733dbf4065ba32907f2284c';
 
 <script type="javascript">
             // On initialise la latitude et la longitude de Paris (centre de la carte)
