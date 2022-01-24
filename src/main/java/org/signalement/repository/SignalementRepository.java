@@ -99,6 +99,7 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     @Query("select s from Signalement s where s.statut.id= :statut")
     public List<Signalement>findSignalementByStatut(@Param("statut") int statut);
 
+
     @Query(value = "select * from Signalement s order by s.daty DESC limit :inf,:sup",nativeQuery=true)
     public List<Signalement>findWithPagination(@Param("inf") int inf,@Param("sup") int sup);
 
@@ -107,6 +108,15 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     public List<Signalement>findByUserWithPagination(@Param("user") int user,@Param("inf") int inf,@Param("sup") int sup);
 
 
+
+
+
+    // @Query("select s from signalement s join userfront u on s.region.id=u.region.id join tokenfront t on u.id=t.userfront.id where t.token= :token ")
+    // public List<Signalement> findSignalementByRegion(@Param("token") String token);
+
+    @Query(value = "select * from signalement s join userfront u on s.region=u.region join tokenfront t on u.id=t.userfront where t.token= :token", nativeQuery = true)
+    public List<Signalement>findSignalementByRegion(@Param("token") String token);
+ 
 
 }
 

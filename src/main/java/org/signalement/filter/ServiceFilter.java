@@ -75,7 +75,7 @@ public class ServiceFilter implements Filter {
 
         //call next filter in the filter chain
          String path = request.getRequestURI();
-        if ("/wb/userFront/login".equals(path) || "/wb/utilisateur/login".equals(path) || "/wb/signalement/stat".equals(path) ){
+        if ("/wb/userfront/login".equals(path) || "/wb/utilisateur/login".equals(path) || "/wb/signalement/stat".equals(path) ){
             filterChain.doFilter(request, response);
             return;
         }

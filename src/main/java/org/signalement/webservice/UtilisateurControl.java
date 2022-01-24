@@ -71,16 +71,16 @@ public class UtilisateurControl {
                String tok = date.toString()+uData.getUsername()+uData.getId().toString();
                
                String sha1 = "";
-		
-		// With the java libraries
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-1");
-	        digest.reset();
-	        digest.update(tok.getBytes("utf8"));
-	        sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
-		} catch (Exception e){
-			e.printStackTrace();
-		}
+    
+    // With the java libraries
+    try {
+      MessageDigest digest = MessageDigest.getInstance("SHA-1");
+          digest.reset();
+          digest.update(tok.getBytes("utf8"));
+          sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
+    } catch (Exception e){
+      e.printStackTrace();
+    }
                        
                token.setToken(sha1);
                tokenmobileRepository.save(token);
