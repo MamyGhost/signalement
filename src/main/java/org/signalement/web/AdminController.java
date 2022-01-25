@@ -8,6 +8,8 @@ package org.signalement.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.signalement.entities.Admin;
@@ -74,8 +76,20 @@ public class AdminController {
     @PostMapping("/admin/traitementlogin")
     public String traitementlogin(@RequestParam(name="username") String username,@RequestParam(name="password") String password,HttpServletRequest request){
        List<Admin> admin = adminRepository.findAll();
+
+            String sha = "";
+            
+            try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+	        digest.reset();
+	        digest.update(password.getBytes("utf8"));
+	        sha = String.format("%040x", new BigInteger(1, digest.digest()));
+		} catch (Exception e){
+			e.printStackTrace();
+		}       
        for(Admin ad:admin){
-           if(ad.getUsername().compareTo(username)==0 && ad.getPassword().compareTo(password)==0)
+           
+           if(ad.getUsername().compareTo(username)==0 && ad.getPassword().compareTo(sha)==0)
            {
                request.getSession().setAttribute("admin",ad.getId());
                return "redirect:/admin/dashboard";

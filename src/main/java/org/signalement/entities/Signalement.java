@@ -57,7 +57,7 @@ public class Signalement implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date daty;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "Latitude")
+    @Column(name = "Latitude",precision= 10, scale =5)
     private BigDecimal latitude;
     @Column(name = "Longitude")
     private BigDecimal longitude;
