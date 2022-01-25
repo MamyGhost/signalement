@@ -13,9 +13,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Mamitiana
  */
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
-    Utilisateur findByUsernameAndPassword(String us,String pass);
+    Utilisateur findByEmailAndPassword(String us,String pass);
     
-    Utilisateur findByUsername(String us);
+    Utilisateur findByEmail(String us);
     
    
 }

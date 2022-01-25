@@ -24,7 +24,7 @@
                   <thead>
                     <tr>
                       <th>Id</th>
-                      <th>User Name</th>
+                      <th>Email</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -32,7 +32,7 @@
                   <tbody class="clickb">
                     <tr th:each="user:${mobileList}">
                       <td th:text="${user.Id}"></td>
-                      <td th:text="${user.getUsername}"></td>
+                      <td th:text="${user.getEmail}"></td>
                       <td>
                         <form th:action="@{/manageResource/signalementRsrc/{id}(id=${user.getId})}" method="get" >
                           <button name="status" class="btn btn-succcess" value="0" type="submit" >Signalement faits</button> 

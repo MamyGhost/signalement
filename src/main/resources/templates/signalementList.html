@@ -36,7 +36,7 @@
                 <tbody class="clickb">
                 <tr th:each="s:${signalement}">
                   <td th:text="${s.getId}"></td>
-                  <td th:text="${s.getSignalnew().getTitre()}"></td>
+                  <td th:text="${s.getSignalnew() != null}? ${s.getSignalnew().getTitre()} : 'Aucun'"></td>
                   <td th:text="${s.getDaty}"></td>
                   <td th:text="${s.getType().getNom()}"></td>
                   <td th:text="${s.getRegion != null}? ${s.getRegion.getNom}: 'Aucun' "></td>

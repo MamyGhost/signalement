@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
  @JsonIdentityInfo(scope = Statut.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
-
 public class Statut implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +46,7 @@ public class Statut implements Serializable {
     @Column(name = "Etat")
     private String etat;
     @OneToMany(mappedBy = "statut")
-    @JsonIgnore
+     @JsonIgnore
     private List<Signalement> signalementList;
 
     public Statut() {

@@ -34,18 +34,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Userfront.findAll", query = "SELECT u FROM Userfront u")})
-@JsonIdentityInfo(scope = Userfront.class,
+ @JsonIdentityInfo(scope = Userfront.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
-
 public class Userfront implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Id")
+     @JsonIgnore
     private Integer id;
     @Column(name = "Username")
     private String username;
@@ -55,6 +54,7 @@ public class Userfront implements Serializable {
     @ManyToOne
     private Region region;
     @OneToMany(mappedBy = "userfront")
+     @JsonIgnore
     private List<Tokenfront> tokenfrontList;
 
     public Userfront() {

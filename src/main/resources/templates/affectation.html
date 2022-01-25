@@ -40,6 +40,7 @@
                           <tr>
                             <th>Titre</th>
                             <th>Type</th>
+                            <th>Description</th>
                             <th>Latitude</th>
                             <th>Longitude</th>
                             <th>Region</th>
@@ -50,11 +51,19 @@
                         </thead>
                         <tbody class ="clickb">
                           <tr th:each="s:${signalement}">
-                            <td th:text="${s.getSignalnew().getTitre()}"></td>
+                          <form method="get" action="/admin/updateregion">
+                              <td>
+                                  <div style="width:175px;">
+                                      <input type="text" class="form-control" name="titre" required="required" placeholder="Veillez assigner un titre">
+                                  </div>
+                            </td>
+                            <td>
+                            <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModal">Voir description</button>
+                            </td>
                             <td th:text="${s.getType().getNom()}"></td>
                             <td class="lat" th:text="${s.getLatitude()}"></td>
                             <td class="long" th:text="${s.getLongitude()}"></td>
-                            <form method="get" action="/admin/updateregion">
+                            
                                  <td>
                                 <select  id="inputState" name="region" class="form-control">
                                     <th:block th:each="r:${region}">
@@ -65,6 +74,28 @@
                             <td><button type="submit" name="id" th:value="${s.getId()}" class="btn btn-outline-primary">Affecter</button>
                             </td>
                             </form>
+                              <!-- Modal -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                              <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title">Description</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div>
+                                            <p th:text="${s.getDescription()}"></p>  
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
                           </tr>
                         </tbody>
                       </table>

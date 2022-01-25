@@ -37,9 +37,9 @@ public class Admin implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @JsonIgnore
     @Column(name = "Id")
     private Integer id;
     @Column(name = "Username")

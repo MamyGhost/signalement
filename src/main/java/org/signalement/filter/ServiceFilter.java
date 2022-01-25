@@ -65,7 +65,7 @@ public class ServiceFilter implements Filter {
         
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.addHeader("Access-Control-Allow-Origin","*");
+        response.addHeader("Access-Control-Allow-Origin","http://localhost:8085");
         response.addHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With,Content-Type, Access-Control-Request-Method, Access-Control-RequestHeaders,authorization");
         response.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin,Access-Control-Allow-Credentials, authorization");
         ServletContext servletContext = request.getServletContext();
@@ -77,7 +77,7 @@ public class ServiceFilter implements Filter {
         LOGGER.info("This Filter is only called when request is mapped for /customer resource");
 
         //call next filter in the filter chain
-        String[] hors={"/wb/userFront/login","/wb/utilisateur/login","/wb/signalement/stat","/wb/signin/utilisateur"};
+        String[] hors={"/wb/userFront/login","/wb/utilisateur/login","/wb/signalement/stat","/wb/utilisateur/signin"};
         List<String> myList = new ArrayList<String>(Arrays.asList(hors));
 
          String path = request.getRequestURI();
@@ -91,7 +91,11 @@ public class ServiceFilter implements Filter {
              return;
          } 
          System.out.println("TOKENNNNNNNNN: "+auth);
-         if(auth.contains("Bearer ")==false)  response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"le token ne contient pas d' entete Bearer");
+         if(auth.contains("Bearer ")==false)
+         {
+             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"le token ne contient pas d' entete Bearer");
+             return;
+         }
         String authtoken = auth.replace("Bearer ","");
          System.out.println("TOKENNNNNNNNN 2: "+authtoken);
            SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
@@ -106,8 +110,11 @@ public class ServiceFilter implements Filter {
                        LOGGER.info("Logging Response :{}", response.getContentType());
                        return;
                    }
-               response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
+               response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token Expiré");
+               return;
              }
+             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token Expiré");
+               return;
            }
            else{
              Tokenmobile tm = tokenmobileRepository.findByToken(authtoken);
@@ -119,12 +126,13 @@ public class ServiceFilter implements Filter {
                 LOGGER.info("Logging Response :{}", response.getContentType());
                 return;
             }
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token Expiré");
+            return;
  }
+           response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token Expiré");
+            return;
            }
            
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token");
-  
     }
 
     @Override

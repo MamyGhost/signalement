@@ -4,7 +4,6 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>org.signalement.entities.Signalnew</class>
     <class>org.signalement.entities.Statut</class>
-    <class>org.signalement.entities.Utilisateur</class>
     <class>org.signalement.entities.Photo</class>
     <class>org.signalement.entities.Region</class>
     <class>org.signalement.entities.Userfront</class>
@@ -14,6 +13,7 @@
     <class>org.signalement.entities.Tokenfront</class>
     <class>org.signalement.entities.Tokenmobile</class>
     <class>org.signalement.entities.Signalement</class>
+    <class>org.signalement.entities.Utilisateur</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/signalement?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

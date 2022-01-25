@@ -74,7 +74,7 @@ public class ResourceManagement {
         Utilisateur user=userMobileRepository.findById(id).get();
         List<Signalement> lista=user.getSignalementList();
         model.addAttribute("signalement", lista);
-        model.addAttribute("auteur",user.getUsername());
+        model.addAttribute("auteur",user.getEmail());
         return "signalementList";
     }
 

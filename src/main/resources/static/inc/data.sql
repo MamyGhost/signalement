@@ -16,7 +16,8 @@ create table region(
 create table utilisateur(
 	Id INT NOT NULL AUTO_INCREMENT primary key,
 	Username varchar(125),
-	Password varchar(250)
+	Password varchar(250),
+	Dateinsc date,
 )ENGINE=InnoDB;
 
 create table admin(
@@ -59,7 +60,9 @@ create table type(
 
 create table signalNew(
 	Id INT NOT NULL AUTO_INCREMENT primary key,
-	Titre varchar(250)
+	Titre varchar(250),
+	Signalement INT,
+	FOREIGN KEY(Signalement) REFERENCES signalement(Id)
 )ENGINE=InnoDB;
 
 create table statut(
@@ -69,7 +72,6 @@ create table statut(
 
 create table signalement(
 	Id INT NOT NULL AUTO_INCREMENT primary key,
-	Signalnew int,
 	Utilisateur int ,
 	Description varchar(1000),
 	Statut int ,
@@ -81,8 +83,7 @@ create table signalement(
 	FOREIGN KEY(Utilisateur) REFERENCES utilisateur(Id),
 	FOREIGN KEY(Type) REFERENCES type(Id),
 	FOREIGN KEY(Region) REFERENCES region(Id),
-	FOREIGN KEY(Statut) REFERENCES statut(Id),
-	FOREIGN KEY(Signalnew) REFERENCES signalNew(Id)
+	FOREIGN KEY(Statut) REFERENCES statut(Id)
 )ENGINE=InnoDB;
 
 
@@ -306,5 +307,13 @@ drop database signalement;
   property = "id")
 
   @JsonIdentityInfo(scope = Utilisateur.class,
+  generator = ObjectIdGenerators.PropertyGenerator.class, 
+  property = "id")
+
+  @JsonIdentityInfo(scope = Tokenfront.class,
+  generator = ObjectIdGenerators.PropertyGenerator.class, 
+  property = "id")
+
+  @JsonIdentityInfo(scope = Tokenmobile.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")

@@ -40,6 +40,7 @@ public class CustomURLFilter implements Filter {
         //call next filter in the filter chain
         filterChain.doFilter(request, response);
         LOGGER.info("Logging Response :{}", response.getContentType());
+        return;
         
 
         

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,10 +22,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,9 +39,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Signalement.findAll", query = "SELECT s FROM Signalement s")})
-  @JsonIdentityInfo(scope = Signalement.class,
+@JsonIdentityInfo(scope = Signalement.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
+
 public class Signalement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,8 +62,8 @@ public class Signalement implements Serializable {
     @Column(name = "Longitude")
     private BigDecimal longitude;
     @JoinColumn(name = "Utilisateur", referencedColumnName = "Id")
-    @JsonIgnore
     @ManyToOne
+     @JsonIgnore
     private Utilisateur utilisateur;
     @JoinColumn(name = "Type", referencedColumnName = "Id")
     @ManyToOne
@@ -69,9 +74,10 @@ public class Signalement implements Serializable {
     @JoinColumn(name = "Statut", referencedColumnName = "Id")
     @ManyToOne
     private Statut statut;
-    @JoinColumn(name = "Signalnew", referencedColumnName = "Id")
-    @ManyToOne
+    @OneToOne(mappedBy = "signalement")
     private Signalnew signalnew;
+    @OneToMany(mappedBy = "signalement")
+    private List<Photo> photoList;
 
     public Signalement() {
     }
@@ -158,6 +164,15 @@ public class Signalement implements Serializable {
 
     public void setSignalnew(Signalnew signalnew) {
         this.signalnew = signalnew;
+    }
+
+    @XmlTransient
+    public List<Photo> getPhotoList() {
+        return photoList;
+    }
+
+    public void setPhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
     }
 
     @Override

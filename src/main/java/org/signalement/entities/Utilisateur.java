@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 import javax.persistence.Basic;
@@ -21,6 +22,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.http.HttpStatus;
@@ -35,28 +38,32 @@ import org.springframework.web.server.ResponseStatusException;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")})
- @JsonIdentityInfo(scope = Utilisateur.class,
+@JsonIdentityInfo(scope = Utilisateur.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
+
 public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Column(name = "Username")
-    private String username;
+    @Column(name = "Email")
+    private String email;
     @Column(name = "Password")
     private String password;
-    @JsonIgnore
+     @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<Signalement> signalementList;
     @OneToMany(mappedBy = "utilisateur")
     @JsonIgnore
     private List<Tokenmobile> tokenmobileList;
+    @Column(name = "dateinsc")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateinsc ;
+
 
     public Utilisateur() {
     }
@@ -73,19 +80,19 @@ public class Utilisateur implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) throws Exception {
+    public void setPassword(String password) {
         this.password = password;
         Pattern frenchPattern = Pattern.compile("(?i)[ùûüÿàâæçéèêëïîôœ]");
         if(frenchPattern.matcher(password).find()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"le Mot de passe ne doit pas contenir d' accent");
@@ -109,6 +116,17 @@ public class Utilisateur implements Serializable {
     public void setTokenmobileList(List<Tokenmobile> tokenmobileList) {
         this.tokenmobileList = tokenmobileList;
     }
+
+
+    public Date getDateinsc() {
+        return dateinsc;
+    }
+
+    public void setDateinsc(Date dateinsc) {
+        this.dateinsc = dateinsc;
+    }
+   
+    
 
     @Override
     public int hashCode() {

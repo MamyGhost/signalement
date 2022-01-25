@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonIdentityInfo(scope = Photo.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
-
 public class Photo implements Serializable {
 
     private static final long serialVersionUID = 1L;

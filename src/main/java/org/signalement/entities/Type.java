@@ -46,7 +46,7 @@ public class Type implements Serializable {
     @Column(name = "Nom")
     private String nom;
     @OneToMany(mappedBy = "type")
-    @JsonIgnore
+     @JsonIgnore
     private List<Signalement> signalementList;
 
     public Type() {

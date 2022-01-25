@@ -41,8 +41,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.signalement.entities.Photo;
 import org.signalement.repository.PhotoRepository;
 import org.signalement.repository.SignalementRepository;
+import org.signalement.repository.SignalnewRepository;
 import org.signalement.repository.TokenmobileRepository;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -65,6 +67,10 @@ public class UtilisateurControl {
      
       
      @Autowired
+    private SignalnewRepository signalnewRepository;
+     
+      
+     @Autowired
     private TokenmobileRepository tokenmobileRepository;
      
       @Autowired
@@ -82,6 +88,19 @@ public class UtilisateurControl {
           }
         }
         
+        
+     
+     @DeleteMapping("/wb/utilisateur/token/{tok}")
+        public ResponseEntity<String> logout(@PathVariable("tok") String token) {
+          try{
+          tokenmobileRepository.deleteByToken(token);
+          return new ResponseEntity<>("Logout reussi",HttpStatus.OK);
+          }catch(Exception ex){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erreur du serveur:"+ex.getMessage());
+          }
+
+        }
+        
      @PostMapping("/wb/utilisateur/login")
         public ResponseEntity<String> authentification(@RequestBody Utilisateur utilisateur)  {
             
@@ -96,12 +115,14 @@ public class UtilisateurControl {
 			e.printStackTrace();
 		} 
             
-          Utilisateur uData = utilisateurRepository.findByUsernameAndPassword(utilisateur.getUsername(),sha);
+          Utilisateur uData = utilisateurRepository.findByEmailAndPassword(utilisateur.getEmail(),sha);
            String sha1 = "";
           if (uData==null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Utilisateur inexistant: mop de passe ou utilisateur incorrect");
           }else{
-                if(tokenmobileRepository.findTokenNoexp().isEmpty()){
+               if(tokenmobileRepository.findTokenNoexp(utilisateur.getEmail()).isEmpty()){
+                  if(tokenmobileRepository.findTokenexp(utilisateur.getEmail()) != null)  tokenmobileRepository.deleteTokenexp(utilisateur.getEmail());
+              
                Tokenmobile token = new Tokenmobile();
                token.setUtilisateur(uData);
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
@@ -110,7 +131,7 @@ public class UtilisateurControl {
                 localDateTime = localDateTime.plusDays(1);
                 Date currentDatePlus = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
                token.setDateexp(currentDatePlus);
-               String tok = date.toString()+uData.getUsername()+uData.getId().toString();
+               String tok = date.toString()+uData.getEmail()+uData.getId().toString();
               
 		// With the java libraries
 		try {
@@ -126,13 +147,13 @@ public class UtilisateurControl {
                tokenmobileRepository.save(token);
                 }
                 else{
-                    Tokenmobile token = tokenmobileRepository.findTokenNoexp().get(0);
+                    Tokenmobile token = tokenmobileRepository.findTokenNoexp(utilisateur.getEmail()).get(0);
                     sha1= token.getToken();
                 }
                
                HttpHeaders headers = new HttpHeaders();
                headers.add("Authorization", "Bearer "+sha1);
-               return new ResponseEntity<>("data",
+               return new ResponseEntity<>("Login succesful",
                 headers, HttpStatus.OK);
           }
         }
@@ -142,9 +163,11 @@ public class UtilisateurControl {
     public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestPart("signalement") Signalement signalement,@RequestPart(value = "file", required = false)MultipartFile[] files ){
         // inserte admin
        try {
-        Utilisateur ut=utilisateurRepository.findByUsername(username);
+        Utilisateur ut=utilisateurRepository.findByEmail(username);
         if(ut==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Uknowing User ");
         signalement.setUtilisateur(ut);
+        
+        //signalnewRepository.save(signalement.getSignalnew().getTitre());
         Signalement sAdded = signalementRepository.save(signalement);
          // Root Directory.
         String path = request.getServletContext().getRealPath("");
@@ -184,7 +207,6 @@ public class UtilisateurControl {
       }
         }
      
-        
         if (sAdded == null)
             return ResponseEntity.noContent().build();
         URI location = ServletUriComponentsBuilder
@@ -192,28 +214,28 @@ public class UtilisateurControl {
                 .path("/{id}")
                 .buildAndExpand(sAdded.getId())
                 .toUri();
-        System.out.println("STATUT: "+signalementRepository.findById(62).get().getStatut().getEtat());
+       // System.out.println("STATUT: "+signalementRepository.findById(62).get().getStatut().getEtat());
         
        //return ResponseEntity.build();
          return ResponseEntity.ok()
         //.header("Custom-Header", "foo")
         .body("Signalement ajouté avec succes");
     } catch (Exception e) {
-     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erreur du serveur");
+     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erreur du serveur :"+e);
     }
        
 }
     
     
           
-         @PostMapping(value="/wb/signin/utilisateur")
+         @PostMapping(value="/wb/utilisateur/signin")
     public ResponseEntity<String> inscription(@RequestBody Utilisateur utilisateur){
-        Utilisateur uData = utilisateurRepository.findByUsername(utilisateur.getUsername());
+        Utilisateur uData = utilisateurRepository.findByEmail(utilisateur.getEmail());
         if (uData!=null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"utilisateur Exsistant");
           }else{
             Utilisateur finaly=new Utilisateur();
-            finaly.setUsername(utilisateur.getUsername());
+            finaly.setEmail(utilisateur.getEmail());
             String sha1 = "";
             
             try {
@@ -226,7 +248,7 @@ public class UtilisateurControl {
 			e.printStackTrace();
 		}
            
-            
+            finaly.setDateinsc(new Date());
             utilisateurRepository.save(finaly);
             URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -235,7 +257,7 @@ public class UtilisateurControl {
         //return ResponseEntity.created(location).build();
          return ResponseEntity.ok()
         .location(location)
-        .body(finaly.getUsername());
+        .body(finaly.getEmail());
         }
   
 }

@@ -33,10 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tokenfront.findAll", query = "SELECT t FROM Tokenfront t")})
- @JsonIdentityInfo(scope = Tokenfront.class,
+@JsonIdentityInfo(scope = Tokenfront.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
-
 public class Tokenfront implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonIdentityInfo(scope = Province.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
+
 public class Province implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,7 +47,7 @@ public class Province implements Serializable {
     @Column(name = "Nom")
     private String nom;
     @OneToMany(mappedBy = "province")
-    @JsonIgnore
+     @JsonIgnore
     private List<Region> regionList;
 
     public Province() {

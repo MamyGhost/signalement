@@ -11,14 +11,17 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -32,10 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Signalnew.findAll", query = "SELECT s FROM Signalnew s")})
-@JsonIdentityInfo(scope = Signalnew.class,
+  @JsonIdentityInfo(scope = Signalnew.class,
   generator = ObjectIdGenerators.PropertyGenerator.class, 
   property = "id")
-
 public class Signalnew implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,9 +48,10 @@ public class Signalnew implements Serializable {
     private Integer id;
     @Column(name = "Titre")
     private String titre;
-    @OneToMany(mappedBy = "signalnew")
-    @JsonIgnore
-    private List<Signalement> signalementList;
+    @OneToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "Signalement",referencedColumnName ="Id")
+     @JsonIgnore
+    private Signalement signalement;
 
     public Signalnew() {
     }
@@ -74,12 +77,12 @@ public class Signalnew implements Serializable {
     }
 
     @XmlTransient
-    public List<Signalement> getSignalementList() {
-        return signalementList;
+    public Signalement getSignalement() {
+        return signalement;
     }
 
-    public void setSignalementList(List<Signalement> signalementList) {
-        this.signalementList = signalementList;
+    public void setSignalement(Signalement signalement) {
+        this.signalement = signalement;
     }
 
     @Override

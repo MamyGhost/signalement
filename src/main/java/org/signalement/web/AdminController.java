@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.signalement.entities.Admin;
 import org.signalement.entities.Region;
 import org.signalement.entities.Signalement;
+import org.signalement.entities.Signalnew;
 import org.signalement.repository.AdminRepository;
 import org.signalement.repository.RegionRepository;
 import org.signalement.repository.SignalementRepository;
+import org.signalement.repository.SignalnewRepository;
 import org.signalement.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +43,9 @@ public class AdminController {
     
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+            
+    @Autowired
+    private SignalnewRepository signalnewRepository;
     
     @GetMapping("/admin/login")
     public String login(@RequestParam(name="error", defaultValue="0") int error,Model model ){
@@ -98,11 +103,15 @@ public class AdminController {
     }
     
      @GetMapping("/admin/updateregion")
-    public String updateregion(@RequestParam(name="region") Integer regionid, @RequestParam(name="id") Integer id ){
+    public String updateregion(@RequestParam(name="region") Integer regionid,@RequestParam(name="titre") String titre, @RequestParam(name="id") Integer id ){
         Signalement s=signalementRepository.findById(id).get();
         Region r = regionRepository.findById(regionid).get();
         s.setRegion(r);
         signalementRepository.save(s);
+        Signalnew vao=new Signalnew();
+        vao.setTitre(titre);
+        vao.setSignalement(s);
+        signalnewRepository.save(vao);
         return "redirect:/admin/affectation";
    
     }
