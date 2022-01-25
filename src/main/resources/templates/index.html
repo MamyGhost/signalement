@@ -23,7 +23,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
             <div class="info">
-              <h4>Nombre total d' etulisateur</h4>
+              <h5>Utilisateur Mobile</h5>
               <p><b th:text="${totalusers}"></b></p>
             </div>
           </div>
@@ -31,7 +31,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
             <div class="info">
-              <h4>Nombre total de signalements</h4>
+              <h5>Signalement</h5>
               <p><b th:text="${totalsignal}"></b></p>
             </div>
           </div>
@@ -39,7 +39,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
-              <h4>region avec le moins de signalement Resolu</h4>
+              <h5>Region le plus efficace</h5>
               <p><b th:text="${regionlow}+': '+${down}+' affectations'"></b></p>
             </div>
           </div>
@@ -47,7 +47,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
             <div class="info">
-              <h4> region avec le plus de signalement Resolu</h4>
+              <h5>Region le moins efficace</h5>
               <p><b th:text="${regionup}+': '+${up}+' affectations'"></b></p>
             </div>
           </div>
