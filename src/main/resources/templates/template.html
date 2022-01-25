@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
-    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"> -->
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/chartist.min.css}"> -->
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
   </head>
@@ -94,8 +94,8 @@
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Gestion de ressource</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="/manageResource/userFrontRsrc"><i class="icon fa fa-circle-o"></i>Utilisateurs Front</a></li>
-            <li><a class="treeview-item" href="/manageResource/userMobileRsrc"><i class="icon fa fa-circle-o"></i>Utilisateurs Mobile</a></li>
-            <li><a class="treeview-item" href="/manageResource/signalementRsrc"><i class="icon fa fa-circle-o"></i>Signalement</a></li>
+            <li><a class="treeview-item" href="/manageResource/userMobileRsrc/0"><i class="icon fa fa-circle-o"></i>Utilisateurs Mobile</a></li>
+            <li><a class="treeview-item" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=0)}"><i class="icon fa fa-circle-o"></i>Signalement</a></li>
           </ul>
         </li>
         <li><a class="app-menu__item" th:href="@{/admin/affectation}"><i class="app-menu__icon fa fa-map-marker"></i><span class="app-menu__label">Affectation</span></a></li>

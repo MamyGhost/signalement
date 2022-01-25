@@ -20,35 +20,35 @@
             </ul>
         </div>
        <div class="row">
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-6">
           <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
             <div class="info">
-              <h4>Nombre total d' etulisateur</h4>
+              <h5>Ultisateurs Mobiles</h5>
               <p><b th:text="${totalusers}"></b></p>
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-6">
           <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
             <div class="info">
-              <h4>Nombre total de signalements</h4>
+              <h5>Signalements</h5>
               <p><b th:text="${totalsignal}"></b></p>
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-6">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
-              <h4>region avec le moins de signalement Resolu</h4>
-              <p><b th:text="${regionlow}+': '+${down}+' affectations'"></b></p>
+              <h5>1er région sur les cas résolus</h5>
+              <p><b th:text ="${regionlow}+': '+${down}+' resolu'"></b></p>
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-6">
           <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
             <div class="info">
-              <h4> region avec le plus de signalement Resolu</h4>
-              <p><b th:text="${regionup}+': '+${up}+' affectations'"></b></p>
+              <h5>Region ayant le moins de cas résolus</h5>
+              <p><b th:text="${regionup}+': '+${up}+' resolu'"></b></p>
             </div>
           </div>
         </div>

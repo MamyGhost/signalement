@@ -61,20 +61,45 @@ public class ResourceManagement {
         return "userFrontList";
     }
 
-    @GetMapping("/manageResource/signalementRsrc")
-    public String manageSignalement(Model model){
-        List<Signalement> lista=signalementRepository.findAll();
+    // @GetMapping("/manageResource/signalementRsrc/{pagination}")
+    // public String manageSignalement(@PathVariable(name="pagination") Integer page,Model model){
+    //     List<Signalement> lista=signalementRepository.findAll();
+    //     model.addAttribute("signalement", lista);
+    //     model.addAttribute("auteur","vide");
+    //     return "signalementList";
+    // }
+
+    @GetMapping("/manageResource/signalementRsrc/{pagination}")
+    public String manageSignalement(@PathVariable(name="pagination") Integer page,Model model){
+        int nbrElement=5;
+        double isa=signalementRepository.count();
+        int pageNumber=(int)(Math.ceil(isa/nbrElement));
+        int first=page*nbrElement;
+        List<Signalement> lista=signalementRepository.findWithPagination(first,nbrElement);
         model.addAttribute("signalement", lista);
-        model.addAttribute("auteur","");
+        model.addAttribute("auteur","vide");
+        model.addAttribute("nbrPage",pageNumber);
+        model.addAttribute("page",page);
         return "signalementList";
     }
 
-    @GetMapping("/manageResource/signalementRsrc/{id}")
-    public String manageSignalement(@PathVariable(name="id") Integer id,Model model){
+
+    @GetMapping("/manageResource/signalementUserRsr/{id}/{page}")
+    public String manageSignalementUser(@PathVariable(name="id") Integer id,@PathVariable(name="page") Integer page,Model model){
+        int nbrElement=5;
         Utilisateur user=userMobileRepository.findById(id).get();
-        List<Signalement> lista=user.getSignalementList();
+        double isa=user.getSignalementList().size();
+        int pageNumber=(int)(Math.ceil(isa/nbrElement));
+        int first=page*nbrElement;
+        List<Signalement> lista=signalementRepository.findByUserWithPagination(id,first,nbrElement);
         model.addAttribute("signalement", lista);
+
         model.addAttribute("auteur",user.getEmail());
+
+        model.addAttribute("nbrPage",pageNumber);
+        model.addAttribute("page",page);
+        model.addAttribute("user",id);
+
         return "signalementList";
     }
 
@@ -109,6 +134,24 @@ public class ResourceManagement {
    
     }
 
+    @GetMapping("/manageResource/formulaireMB")
+    public String createMB(Model model){
+        Utilisateur user=new Utilisateur();
+        model.addAttribute("utilisateur",user);
+        return "formulaireMB";
+   
+    }
+
+    @PostMapping("/manageResource/saveMB")
+    public String insertMB(@ModelAttribute("utilisateur") Utilisateur user,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+
+        }
+        userMobileRepository.save(user);
+        return "redirect:/manageResource/userMobileRsrc";
+   
+    } 
+
     @PostMapping("/manageResource/saveUF")
     public String insertUF(@ModelAttribute("userfront") Userfront user,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -133,21 +176,108 @@ public class ResourceManagement {
    
     } 
 
-    @GetMapping("/manageResource/viewSIGN/{id}")
-    public String detailSIGN(@PathVariable(name="id") Integer id,Model model){
+    @GetMapping("/manageResource/viewSIGN/{id}/{page}")
+    public String detailSIGN(@PathVariable(name="id") Integer id,@PathVariable(name="page") Integer page,Model model){
         Signalement sign=signalementRepository.findById(id).get();
         List<Photo> photos=photoRep.findBySignalement(sign);
+         List<Region> listRegion = regionRepository.findAll();
+        model.addAttribute("region",listRegion);
         model.addAttribute("sign",sign);
         model.addAttribute("photos",photos);
+        model.addAttribute("user",0);
+        model.addAttribute("page",page);
         return "detailSignalement";
    
     } 
 
-    @GetMapping("/manageResource/userMobileRsrc")
-    public String manageUserMobile(Model model){
-        List<Utilisateur> list=userMobileRepository.findAll();
+    @GetMapping("/manageResource/viewSignUser/{id}/{user}/{page}")
+    public String detailSignUser(@PathVariable(name="id") Integer id,@PathVariable(name="user") Integer user,@PathVariable(name="page") Integer page,Model model){
+        Signalement sign=signalementRepository.findById(id).get();
+        List<Photo> photos=photoRep.findBySignalement(sign);
+        List<Region> listRegion = regionRepository.findAll();
+        model.addAttribute("region",listRegion);
+        model.addAttribute("sign",sign);
+        model.addAttribute("photos",photos);
+        model.addAttribute("user",user);
+        model.addAttribute("page",page);
+        return "detailSignalement";
+   
+    } 
+
+
+    @GetMapping("/manageResource/regionSignUser/{id}/{user}/{page}")
+    public String regionSignUser(@PathVariable(name="id") Integer id,@PathVariable(name="user") Integer user,@PathVariable(name="page") Integer page,@RequestParam(name="region") Integer regionid,Model model){
+        Signalement sign=signalementRepository.findById(id).get();
+        Region r = regionRepository.findById(regionid).get();
+        sign.setRegion(r);
+        signalementRepository.save(sign);
+        String retour="redirect:/manageResource/viewSignUser/"+id+"/"+user+"/"+page;
+        return retour;
+   
+    }
+
+    @GetMapping("/manageResource/regionSign/{id}/{page}")
+    public String regionSign(@PathVariable(name="id") Integer id,@PathVariable(name="page") Integer page,@RequestParam(name="region") Integer regionid,Model model){
+        Signalement sign=signalementRepository.findById(id).get();
+        Region r = regionRepository.findById(regionid).get();
+        sign.setRegion(r);
+        signalementRepository.save(sign);
+        String retour="redirect:/manageResource/viewSIGN/"+id+"/"+page;
+        return retour;
+   
+    }
+
+
+    @GetMapping("/manageResource/userMobileRsrc/{page}")
+    public String manageUserMobile(@PathVariable(name="page") Integer page,Model model){
+        int nbrElement=2;
+        double isa=userMobileRepository.count();
+        int pageNumber=(int)(Math.ceil(isa/nbrElement));
+        int first=page*nbrElement;
+        List<Utilisateur> list=userMobileRepository.findWithPagination(first,nbrElement);
         model.addAttribute("mobileList", list);
+        model.addAttribute("nbrPage",pageNumber);
+        model.addAttribute("page",page);
         return "userMobileList";
+    }
+
+    @GetMapping("/manageResource/regionStat")
+    public String stat(Model model){
+        List<Object[]> ru = regionRepository.findRegionup();
+        List<Object[]> rl = regionRepository.findRegionlow();
+        long totalusers=userMobileRepository.count();
+        long totalsignal=signalementRepository.count();
+        List<Region> listRegion = regionRepository.findAll();
+        model.addAttribute("region",listRegion);
+        
+        String regionup="Aucun";
+        String regionlow="Aucun";
+        Long up=0L;
+        Long down=0L;
+        
+        for(Object[] ruu:ru){
+            if(up<(Long)ruu[1]){
+                up=(Long)ruu[1];
+                regionup=(String)ruu[0];
+            }
+        }
+        
+        for(Object[] rll:rl){
+            if(down<(Long)rll[1]){
+                down=(Long)rll[1];
+                regionlow=(String)rll[0];
+            }
+        }
+            System.out.println("");
+         model.addAttribute("regionup",regionup);
+         model.addAttribute("regionlow",regionlow);
+         model.addAttribute("up",up);
+         model.addAttribute("down",down);
+         model.addAttribute("totalusers", totalusers);
+         model.addAttribute("totalsignal", totalsignal);
+ 
+         return "regionDashboard";
+      
     }
 
 

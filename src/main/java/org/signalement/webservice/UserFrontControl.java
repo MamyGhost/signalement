@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import org.signalement.entities.Signalement;
 import org.signalement.entities.Tokenfront;
 import org.signalement.entities.Userfront;
@@ -48,7 +50,7 @@ public class UserFrontControl {
      
         
      @PostMapping("/wb/userfront/login")
-        public ResponseEntity<String> authentification(@RequestBody Userfront user)  {
+        public ResponseEntity<Userfront> authentification(@RequestBody Userfront user)  {
             Region nreg= new Region();
             Userfront uData= userfrontRepository.findUserfrontlogin(user.getUsername(),user.getPassword(), user.getRegion().getId());
           if (uData==null) {
@@ -80,20 +82,27 @@ public class UserFrontControl {
                tokenfrontRepository.save(token);
                
                HttpHeaders headers = new HttpHeaders();
-               headers.add("Authorization", "Bearer "+sha1);
-               return new ResponseEntity<>(
-                headers, HttpStatus.OK);
+               headers.add("Authorization","Bearer " +sha1);
+               // return new ResponseEntity<>(
+               //  uData, headers, HttpStatus.OK);
+               return ResponseEntity.ok().headers(headers).body(uData);
           }
         }
         
-        @GetMapping("/userfront")
+        @GetMapping("/wd/userfront")
     public List<Userfront> list() {
     return userfrontRepository.findAll();
 }
 
-    @GetMapping("/userfront/{id}")
-    public Userfront listUser(@PathVariable("id") Integer id){
-    return userfrontRepository.findById(id).get();
+    @GetMapping("/wd/userfront/{id}")
+    public ResponseEntity<Userfront> listUser(@PathVariable("id") Integer id){
+      Optional<Userfront> sData = userfrontRepository.findById(id);
+     if (sData.isPresent()) {
+            return new ResponseEntity<>(sData.get(), HttpStatus.OK);
+          } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Userfront non trouve");
+          }
 }
      
 }
+

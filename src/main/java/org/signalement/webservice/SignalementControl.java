@@ -44,7 +44,7 @@ public class SignalementControl {
         }
         
         
-    @GetMapping("wb/type/{idtype}/signalement")
+    @GetMapping("/wb/type/{idtype}/signalement")
         public ResponseEntity<List<Signalement>> getSignalementBytype(@PathVariable("idtype") int id) {
           List<Signalement> sData = signalementRepository.chercherpartype(id);
 
@@ -56,9 +56,14 @@ public class SignalementControl {
         }
         
     
-     @GetMapping("statut/{statut}/signalement")
-    public List<Signalement> listSignalementParStatut(@PathVariable("statut") int statut){
-    return signalementRepository.findSignalementByStatut(statut);
+     @GetMapping("/wb/statut/{statut}/signalement")
+    public ResponseEntity<List<Signalement>> listSignalementParStatut(@PathVariable("statut") int statut){
+      List<Signalement> sData= signalementRepository.findSignalementByStatut(statut);
+    if (!sData.isEmpty()) {
+            return new ResponseEntity<>(sData, HttpStatus.OK);
+          } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
+          }
 }
     
     @PostMapping("/wb/signalement")
@@ -79,5 +84,17 @@ public class SignalementControl {
     }
     
 }
+
+@GetMapping("/wb/region/{token}/signalement")
+        public ResponseEntity<List<Signalement>> getSignalementByRegion(@PathVariable("token") String token) {
+          
+          List<Signalement> sData = signalementRepository.findSignalementByRegion(token);
+
+          if (!sData.isEmpty()) {
+            return new ResponseEntity<>(sData, HttpStatus.OK);
+          } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
+          }
+        }
     
 }

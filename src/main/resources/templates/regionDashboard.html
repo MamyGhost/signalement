@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template"     
+      lang="en">
+  <head>
+    <title>Dashboard</title>
+    <meta charset="utf-8">
+  </head>
+  <body class="app sidebar-mini rtl">
+    <div layout:fragment="content1">
+        <main class="app-content">
+            <div class="row justify-content-center">
+              <div class="col">
+                <div class="tile">
+                    <h4 class="tile-title">Statistique par Region</h4>
+                    <form class="form-inline">
+                      
+                      <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Région: </label>
+
+                      <select class="custom-select my-1 mr-sm-2" data-style="btn-success" name="region" id="inlineFormCustomSelectPref">
+                        <th:block th:each="r:${region}">
+                            <option th:text="${r.getNom()}" th:value="${r.getId()}"></option> 
+                        </th:block>
+                      </select>
+
+
+                      <button id="statBTN" class="btn btn-primary my-1">Submit</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="row">
+              <div class="col-md-6 col-lg-3">
+                <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                  <div class="info">
+                    <h4>Nombre total d' etulisateur</h4>
+                    <p><b th:text="${totalusers}"></b></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3">
+                <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
+                  <div class="info">
+                    <h4>Nombre total de signalements</h4>
+                    <p><b th:text="${totalsignal}"></b></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3">
+                <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
+                  <div class="info">
+                    <h4>region avec le moins de signalement Resolu</h4>
+                    <p><b th:text="${regionlow}+': '+${down}+' affectations'"></b></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3">
+                <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
+                  <div class="info">
+                    <h4> region avec le plus de signalement Resolu</h4>
+                    <p><b th:text="${regionup}+': '+${up}+' affectations'"></b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="tile">
+                    <h3 class="tile-title">Stat signalement annuel</h3>
+                    <div class="embed-responsive embed-responsive-16by9">
+                      <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="tile">
+                    <h3 class="tile-title">Nombre de signalements par type</h3>
+                    <div class="embed-responsive embed-responsive-16by9">
+                      <canvas class="embed-responsive-item" id="pieChartDemo"></canvas>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <script th:src="@{/js/loadchart.js}"></script>
+            <script th:src="@{/js/Chart.bundle.min.js}"></script>
+            
+        </main>
+    </div>    
+  </body>
+</html>

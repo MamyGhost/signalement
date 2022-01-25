@@ -5,15 +5,7 @@
  */
 package org.signalement.webservice;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -33,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.security.MessageDigest;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -49,8 +42,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+
+
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  *
@@ -62,9 +56,6 @@ public class UtilisateurControl {
      @Autowired
     private UtilisateurRepository utilisateurRepository;
      
-     @Autowired
-    private SignalementRepository signalementRepository;
-     
       
      @Autowired
     private SignalnewRepository signalnewRepository;
@@ -72,9 +63,6 @@ public class UtilisateurControl {
       
      @Autowired
     private TokenmobileRepository tokenmobileRepository;
-     
-      @Autowired
-    private PhotoRepository photoRepository;
      
      @GetMapping("/wb/utilisateur/{id}/signalement")
         public ResponseEntity<List<Signalement>> getSignalementById(@PathVariable("id") int id) {
@@ -103,6 +91,7 @@ public class UtilisateurControl {
         
      @PostMapping("/wb/utilisateur/login")
         public ResponseEntity<String> authentification(@RequestBody Utilisateur utilisateur)  {
+
             
             String sha = "";
             
@@ -123,6 +112,7 @@ public class UtilisateurControl {
                if(tokenmobileRepository.findTokenNoexp(utilisateur.getEmail()).isEmpty()){
                   if(tokenmobileRepository.findTokenexp(utilisateur.getEmail()) != null)  tokenmobileRepository.deleteTokenexp(utilisateur.getEmail());
               
+
                Tokenmobile token = new Tokenmobile();
                token.setUtilisateur(uData);
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
@@ -131,6 +121,7 @@ public class UtilisateurControl {
                 localDateTime = localDateTime.plusDays(1);
                 Date currentDatePlus = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
                token.setDateexp(currentDatePlus);
+
                String tok = date.toString()+uData.getEmail()+uData.getId().toString();
               
 		// With the java libraries
@@ -154,11 +145,13 @@ public class UtilisateurControl {
                HttpHeaders headers = new HttpHeaders();
                headers.add("Authorization", "Bearer "+sha1);
                return new ResponseEntity<>("Login succesful",
+
                 headers, HttpStatus.OK);
           }
         }
         
         
+
          @PostMapping(value="/wb/utilisateur/{username}/signalement",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestPart("signalement") Signalement signalement,@RequestPart(value = "file", required = false)MultipartFile[] files ){
         // inserte admin
@@ -262,4 +255,5 @@ public class UtilisateurControl {
   
 }
     
+
 }

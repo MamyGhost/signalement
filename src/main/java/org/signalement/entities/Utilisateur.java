@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,8 +25,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -94,9 +91,6 @@ public class Utilisateur implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-        Pattern frenchPattern = Pattern.compile("(?i)[ùûüÿàâæçéèêëïîôœ]");
-        if(frenchPattern.matcher(password).find()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"le Mot de passe ne doit pas contenir d' accent");
-        if(password.length()<8)  throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"le Mot de passe doit contenir au moins 8 caracteres");
     }
 
     @XmlTransient
@@ -154,3 +148,10 @@ public class Utilisateur implements Serializable {
     }
     
 }
+
+ // public void setPassword(String password) throws Exception {
+    //     this.password = password;
+    //     Pattern frenchPattern = Pattern.compile("(?i)[ùûüÿàâæçéèêëïîôœ]");
+    //     if(frenchPattern.matcher(password).find()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"le Mot de passe ne doit pas contenir d' accent");
+    //     if(password.length()<8)  throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"le Mot de passe doit contenir au moins 8 caracteres");
+    // }

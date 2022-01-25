@@ -22,18 +22,63 @@
                     <div class="tile">
                         <section>
                             <div class="timeline-post">
-                                <div class="post-media"><a href="#"><img 
-                                            th:src="@{/img/user.png}" alt="avatar" class="avatar"></a>
-                                    <div class="content">
-                                        <h4 style="font-family: Comic Sans MS" th:text="${sign.getUtilisateur().getUsername()}"></h4>
-                                    </div>  
+                                <div class="row ">
+                                    <div class="col-md-6" >
+                                        <div class="post-media">
+                                            <a href="#"><img 
+                                                    th:src="@{/img/user.png}" alt="avatar" class="avatar"></a>
+                                            <div class="content">
+                                                <h4 style="font-family: Comic Sans MS" th:text="${sign.getUtilisateur().getUsername()}"></h4>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 justify-content-end" >
+                                        <form th:if="${user == 0 }" class="form-inline " th:action="@{/manageResource/regionSign/{id}/{page}(id=${sign.getId()},page=${page})}">
+                          
+                                          <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Région: </label>
+
+                                          <select class="custom-select my-1 mr-sm-2" data-style="btn-success" name="region" id="inlineFormCustomSelectPref">
+                                            <th:block th:each="r:${region}">
+                                                <th:block th:if="${sign.getRegion() !=null && r.getId() == sign.getRegion().getId()}" >
+                                                    <option th:text="${r.getNom()}" th:value="${r.getId()}" selected></option> 
+                                                </th:block>
+                                                <th:block th:unless="${sign.getRegion() !=null && r.getId() == sign.getRegion().getId()}" >
+                                                  <option th:text="${r.getNom()}" th:value="${r.getId()}"></option>
+                                                </th:block>
+                                            </th:block>
+                                          </select>
+                                          <button type="submit" class="btn btn-primary my-1">Changer de region</button>
+                                        </form>
+                                        <form th:unless="${user == 0 }" class="form-inline " th:action="@{/manageResource/regionSignUser/{id}/{user}/{page}(id=${sign.getId()},user=${user},page=${page})}">
+                          
+                                          <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Région: </label>
+
+                                          <select class="custom-select my-1 mr-sm-2" data-style="btn-success" name="region" id="inlineFormCustomSelectPref">
+                                            <th:block th:each="r:${region}">
+                                                <th:block th:if="${sign.getRegion() !=null && r.getId() == sign.getRegion().getId()}" >
+                                                    <option th:text="${r.getNom()}" th:value="${r.getId()}" selected></option> 
+                                                </th:block>
+                                                <th:block th:unless="${sign.getRegion() !=null && r.getId() == sign.getRegion().getId()}" >
+                                                  <option th:text="${r.getNom()}" th:value="${r.getId()}"></option>
+                                                </th:block>
+                                            </th:block>
+                                          </select>
+                                          <button type="submit" class="btn btn-primary my-1">Changer de region</button>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="post-content">
                                     <h2 style="color: green;text-align: center;" th:text="${sign.getSignalnew().getTitre()}"></h2>
                                     <p th:text="@{' Satus :'+${sign.getStatut().getEtat()}}"></p>
                                     <p th:text="@{' Publié le :'+${sign.getDaty()}}"></p>
+                                    <th:block th:if="${sign.getRegion() !=null}" >
+                                        <p th:text="@{' Region :'+${sign.getRegion().getNom()}}"></p> 
+                                    </th:block>
+                                    <th:block th:unless="${sign.getRegion() !=null}" >
+                                        <p>Region : Aucun</p> 
+                                    </th:block>
                                     <p>Description:</p>
-                                    <p th:text="${sign.getDescription()}"></p>
+                                    <p style="font-size: 20px;text-indent: 50px;" th:text="${sign.getDescription()}"></p>
                                 </div>
                             </div>
                             <div class="timeline-post">
@@ -47,7 +92,8 @@
                             </div>
                         </section>
                         <div class="tile-footer">
-                            <a class="btn btn-outline-success" href="/manageResource/signalementRsrc" role="button">Retour</a>
+                            <a th:if="${user == 0 }"  class="btn btn-outline-success" th:href="@{/manageResource/signalementRsrc/{page}(page=${page})}" role="button">Retour</a>
+                            <a th:unless="${user == 0 }"  class="btn btn-outline-success" th:href="@{/manageResource/signalementUserRsr/{id}/{page}(id=${user},page=${page})}" role="button">Retour</a>
                         </div>
                         </form>
                     </div>

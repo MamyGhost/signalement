@@ -5,12 +5,16 @@
  */
 package org.signalement.repository;
 
-import java.util.List;
 import org.signalement.entities.Tokenmobile;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import org.springframework.transaction.annotation.Transactional;
+
+
+import java.util.List;
 
 /**
  *
@@ -18,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface TokenmobileRepository extends JpaRepository<Tokenmobile, Integer> {
      public Tokenmobile findByToken(String token);
+
      
      @Transactional
      public void deleteByToken(String token);
@@ -33,4 +38,9 @@ public interface TokenmobileRepository extends JpaRepository<Tokenmobile, Intege
     public void deleteTokenexp(@Param("mail")String mail);
      
      
+
+
+       @Query("select t from Tokenmobile t where t.dateexp >=  current_date")
+    public List<Tokenmobile>findTokenNoexp();
+
 }
