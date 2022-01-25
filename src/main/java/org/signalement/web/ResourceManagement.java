@@ -177,6 +177,8 @@ public class ResourceManagement {
     public String detailSIGN(@PathVariable(name="id") Integer id,@PathVariable(name="page") Integer page,Model model){
         Signalement sign=signalementRepository.findById(id).get();
         List<Photo> photos=photoRep.findBySignalement(sign);
+         List<Region> listRegion = regionRepository.findAll();
+        model.addAttribute("region",listRegion);
         model.addAttribute("sign",sign);
         model.addAttribute("photos",photos);
         model.addAttribute("user",0);
@@ -189,6 +191,8 @@ public class ResourceManagement {
     public String detailSignUser(@PathVariable(name="id") Integer id,@PathVariable(name="user") Integer user,@PathVariable(name="page") Integer page,Model model){
         Signalement sign=signalementRepository.findById(id).get();
         List<Photo> photos=photoRep.findBySignalement(sign);
+        List<Region> listRegion = regionRepository.findAll();
+        model.addAttribute("region",listRegion);
         model.addAttribute("sign",sign);
         model.addAttribute("photos",photos);
         model.addAttribute("user",user);
@@ -197,11 +201,80 @@ public class ResourceManagement {
    
     } 
 
-    @GetMapping("/manageResource/userMobileRsrc")
-    public String manageUserMobile(Model model){
-        List<Utilisateur> list=userMobileRepository.findAll();
+
+    @GetMapping("/manageResource/regionSignUser/{id}/{user}/{page}")
+    public String regionSignUser(@PathVariable(name="id") Integer id,@PathVariable(name="user") Integer user,@PathVariable(name="page") Integer page,@RequestParam(name="region") Integer regionid,Model model){
+        Signalement sign=signalementRepository.findById(id).get();
+        Region r = regionRepository.findById(regionid).get();
+        sign.setRegion(r);
+        signalementRepository.save(sign);
+        String retour="redirect:/manageResource/viewSignUser/"+id+"/"+user+"/"+page;
+        return retour;
+   
+    }
+
+    @GetMapping("/manageResource/regionSign/{id}/{page}")
+    public String regionSign(@PathVariable(name="id") Integer id,@PathVariable(name="page") Integer page,@RequestParam(name="region") Integer regionid,Model model){
+        Signalement sign=signalementRepository.findById(id).get();
+        Region r = regionRepository.findById(regionid).get();
+        sign.setRegion(r);
+        signalementRepository.save(sign);
+        String retour="redirect:/manageResource/viewSIGN/"+id+"/"+page;
+        return retour;
+   
+    }
+
+
+    @GetMapping("/manageResource/userMobileRsrc/{page}")
+    public String manageUserMobile(@PathVariable(name="page") Integer page,Model model){
+        int nbrElement=2;
+        double isa=userMobileRepository.count();
+        int pageNumber=(int)(Math.ceil(isa/nbrElement));
+        int first=page*nbrElement;
+        List<Utilisateur> list=userMobileRepository.findWithPagination(first,nbrElement);
         model.addAttribute("mobileList", list);
+        model.addAttribute("nbrPage",pageNumber);
+        model.addAttribute("page",page);
         return "userMobileList";
+    }
+
+    @GetMapping("/manageResource/regionStat")
+    public String stat(Model model){
+        List<Object[]> ru = regionRepository.findRegionup();
+        List<Object[]> rl = regionRepository.findRegionlow();
+        long totalusers=userMobileRepository.count();
+        long totalsignal=signalementRepository.count();
+        List<Region> listRegion = regionRepository.findAll();
+        model.addAttribute("region",listRegion);
+        
+        String regionup="Aucun";
+        String regionlow="Aucun";
+        Long up=0L;
+        Long down=0L;
+        
+        for(Object[] ruu:ru){
+            if(up<(Long)ruu[1]){
+                up=(Long)ruu[1];
+                regionup=(String)ruu[0];
+            }
+        }
+        
+        for(Object[] rll:rl){
+            if(down<(Long)rll[1]){
+                down=(Long)rll[1];
+                regionlow=(String)rll[0];
+            }
+        }
+            System.out.println("");
+         model.addAttribute("regionup",regionup);
+         model.addAttribute("regionlow",regionlow);
+         model.addAttribute("up",up);
+         model.addAttribute("down",down);
+         model.addAttribute("totalusers", totalusers);
+         model.addAttribute("totalsignal", totalsignal);
+ 
+         return "regionDashboard";
+      
     }
 
 

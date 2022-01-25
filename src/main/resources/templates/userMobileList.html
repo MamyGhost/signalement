@@ -18,13 +18,42 @@
                   <h2 class="tile-title" style="font-family: Snell Roundhand, cursive;color: green;">Listes des Utilisateurs Mobiles</h2>
                 </div>
             </div>
+            <div class="row justify-content-end">
+              <div class="col-md-10">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                      <th:block th:if="${page != 0 }">
+                        <li class="page-item">
+                          <a class="page-link" th:href="@{/manageResource/userMobileRsrc/{pagination}(pagination=${page-1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                      </th:block>
+                      <th:block th:if="${nbrPage != 0 }" th:each="i:${#numbers.sequence(0,nbrPage-1)}">
+                        <li th:if="${i == page}"  class="page-item active"><span class="page-link" th:text="${i+1}">
+                          <span class="sr-only">(current)</span>
+                        </span>
+                        </li>
+                        <li th:unless="${i == page}"  class="page-item"><a class="page-link" th:href="@{/manageResource/userMobileRsrc/{pagination}(pagination=${i})}" th:text="${i+1}"></a></li>
+                      </th:block>  
+                      <th:block th:if="${ page<(nbrPage-1) }">                         
+                        <li class="page-item">
+                          <a class="page-link" th:href="@{/manageResource/userMobileRsrc/{pagination}(pagination=${page+1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </th:block> 
+                    </ul>
+                </nav>
+              </div> 
+            </div> 
             <div class="row">
               <div class="col-md-10">
                 <table class="table table-hover table-responsive">
                   <thead>
                     <tr>
                       <th>Id</th>
-                      <th>User Name</th>
+                      <th>Email</th>
                       <th>Nombre de Signalement effectués</th>
                       <th></th>
                       <th></th>

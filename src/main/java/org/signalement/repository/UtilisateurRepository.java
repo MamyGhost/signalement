@@ -6,6 +6,9 @@
 package org.signalement.repository;
 import org.signalement.entities.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import java.util.List;
 /**
 /**
  *
@@ -13,5 +16,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
     Utilisateur findByUsernameAndPassword(String us,String pass);
-     Utilisateur findByUsername(String us);
+    Utilisateur findByUsername(String us);
+
+
+
+    @Query(value = "select * from Utilisateur limit :inf,:sup",nativeQuery=true)
+    public List<Utilisateur>findWithPagination(@Param("inf") int inf,@Param("sup") int sup);
+
 }

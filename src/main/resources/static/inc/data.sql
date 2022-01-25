@@ -102,26 +102,28 @@ insert into admin values
 insert into utilisateur values
 	(null,"user","0000");
 
-insert into userfront values(null,"user3","user3",3);
-insert into userfront values(null,"user4","user4",4);
-insert into userfront values(null,"user5","user5",5);
-insert into userfront values(null,"user6","user6",6);
-insert into userfront values(null,"user7","user7",7);
-insert into userfront values(null,"user8","user8",8);
-insert into userfront values(null,"user9","user9",9);
-insert into userfront values(null,"user10","user10",10);
-insert into userfront values(null,"user11","user11",11);
-insert into userfront values(null,"user12","user12",12);
-insert into userfront values(null,"user13","user13",13);
-insert into userfront values(null,"user14","user14",14);
-insert into userfront values(null,"user15","user15",15);
-insert into userfront values(null,"user16","user16",16);
-insert into userfront values(null,"user17","user17",17);
-insert into userfront values(null,"user18","user18",18);
-insert into userfront values(null,"user19","user19",19);
-insert into userfront values(null,"user20","user20",20);
-insert into userfront values(null,"user21","user21",21);
-insert into userfront values(null,"user22","user22",22);
+insert into userfront values(null,"mamy.@gmail.com","mamy12345",1);
+insert into userfront values(null,"Rakoto.@gmail.com","Rakoto12345",2);
+insert into userfront values(null,"Jean.@gmail.com","Jean12345",3);
+insert into userfront values(null,"Marcel.@gmail.com","Marcel12345",4);
+insert into userfront values(null,"Olivier.@gmail.com","Olivier12345",5);
+insert into userfront values(null,"Gerard.@gmail.com","Gerard12345",6);
+insert into userfront values(null,"Hasina.@gmail.com","Hasina12345",7);
+insert into userfront values(null,"jose.@gmail.com","jose12345",8);
+insert into userfront values(null,"Valy.@gmail.com","Valy12345",9);
+insert into userfront values(null,"Medard.@gmail.com","Medard12345",10);
+insert into userfront values(null,"Kohen.@gmail.com","Kohen12345",11);
+insert into userfront values(null,"mahery.@gmail.com","mahery12345",12);
+insert into userfront values(null,"Bernard.@gmail.com","Bernard12345",13);
+insert into userfront values(null,"zaka.@gmail.com","zaka12345",14);
+insert into userfront values(null,"ratrema.@gmail.com","ratrema12345",15);
+insert into userfront values(null,"Mpandry.@gmail.com","Mpandry12345",16);
+insert into userfront values(null,"Moise.@gmail.com","Moise12345",17);
+insert into userfront values(null,"fandry.@gmail.com","fandry12345",18);
+insert into userfront values(null,"maurice.@gmail.com","maurice12345",19);
+insert into userfront values(null,"Vatsy.@gmail.com","Vatsy12345",20);
+insert into userfront values(null,"tsangy.@gmail.com","tsangy12345",21);
+insert into userfront values(null,"Mitony.@gmail.com","Mitony12345",22);
 
 insert into type values
 	(null,"vol"),

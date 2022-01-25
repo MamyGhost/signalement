@@ -28,7 +28,7 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
 
     @Query("SELECT s FROM Signalement s WHERE s.type.id = :idtype")
    List<Signalement>  chercherpartype(@Param("idtype") int idtype);
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     @Query( value = "select SUM(CASE month(s.daty)\n" +
 "            WHEN 1 THEN 1\n" +
 "            ELSE 0\n" +

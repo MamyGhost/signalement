@@ -27,30 +27,30 @@
                 <div class="col">
                   <th:block th:if="${auteur == 'vide'}" >
                     <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                      <th:block th:if="${page != 0 }">
-                        <li class="page-item">
-                          <a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${page-1})}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                      </th:block>
-                      <th:block th:each="i:${#numbers.sequence(0,nbrPage-1)}">
-                        <li th:if="${i == page}"  class="page-item active"><span class="page-link" th:text="${i+1}">
-                          <span class="sr-only">(current)</span>
-                        </span>
-                        </li>
-                        <li th:unless="${i == page}"  class="page-item"><a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${i})}" th:text="${i+1}"></a></li>
-                      </th:block>  
-                      <th:block th:if="${ page<(nbrPage-1) }">                         
-                        <li class="page-item">
-                          <a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${page+1})}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </th:block> 
-                    </ul>
-                  </nav>
+                      <ul class="pagination justify-content-end">
+                        <th:block th:if="${page != 0 }">
+                          <li class="page-item">
+                            <a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${page-1})}" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                        </th:block>
+                        <th:block th:if="${nbrPage != 0 }" th:each="i:${#numbers.sequence(0,nbrPage-1)}">
+                          <li th:if="${i == page}"  class="page-item active"><span class="page-link" th:text="${i+1}">
+                            <span class="sr-only">(current)</span>
+                          </span>
+                          </li>
+                          <li th:unless="${i == page}"  class="page-item"><a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${i})}" th:text="${i+1}"></a></li>
+                        </th:block>  
+                        <th:block th:if="${ page<(nbrPage-1) }">                         
+                          <li class="page-item">
+                            <a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${page+1})}" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </th:block> 
+                      </ul>
+                    </nav>
                   </th:block>
                   <th:block th:unless="${auteur == 'vide'}" >
                     <nav aria-label="Page navigation example">
@@ -102,16 +102,20 @@
                       <td th:text="${s.getDaty}"></td>
                       <td th:text="${s.getType().getNom()}"></td>
                       <td th:text="${s.getRegion != null}? ${s.getRegion.getNom}: 'Aucun' "></td>
-                      <td th:if="${auteur == 'vide'}" >
-                       
-                          <a  role="button" name="id" th:href="@{/manageResource/viewSIGN/{id}/{page}(id=${s.getId},page=${page})}"
-                        class="btn btn-outline-primary">Voir detail</a>
-                          
-                      </td> 
-                      <td th:unless="${auteur == 'vide'}" >
-                        <a  role="button" name="id" th:href="@{/manageResource/viewSignUser/{id}/{user}/{page}(id=${s.getId},user=${user},page=${page})}"
-                        class="btn btn-outline-primary">Voir detail</a>  
-                      </td>
+                      <th:block th:if="${auteur == 'vide'}" >
+                        <td>
+                         
+                            <a  role="button" name="id" th:href="@{/manageResource/viewSIGN/{id}/{page}(id=${s.getId},page=${page})}"
+                          class="btn btn-outline-primary">Voir detail</a>
+                            
+                        </td>
+                      </th:block> 
+                      <th:block th:unless="${auteur == 'vide'}" >
+                        <td>
+                          <a  role="button" name="id" th:href="@{/manageResource/viewSignUser/{id}/{user}/{page}(id=${s.getId},user=${user},page=${page})}"
+                          class="btn btn-outline-primary">Voir detail</a>  
+                        </td>
+                      </th:block>
                       <td>
                         <a role="button" name="id" href="#"
                         class="btn btn-outline-danger">Bloquer</a>
