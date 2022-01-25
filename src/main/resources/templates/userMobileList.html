@@ -63,7 +63,7 @@
                   <tbody class="clickb">
                     <tr th:each="user:${mobileList}">
                       <td th:text="${user.Id}"></td>
-                      <td th:text="${user.getUsername}"></td>
+                      <td th:text="${user.getEmail}"></td>
                       <td style="text-align: end;" th:text="${user.getSignalementList().size()}"></td>
                       <td>
                         <form th:action="@{/manageResource/signalementUserRsr/{id}/{page}(id=${user.getId},page=0)}" method="get" >

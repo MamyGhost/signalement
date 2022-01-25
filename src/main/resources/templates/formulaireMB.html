@@ -19,7 +19,7 @@
                   <form id="create" th:action="@{/manageResource/saveMB}" th:object="${utilisateur}" method="post"> 
                   <div class="form-group">
                     <label class="col-form-label" for="inputDefault">Email</label>
-                    <input class="form-control" th:field="*{username}" id="inputDefault" type="email"  required>
+                    <input class="form-control" th:field="*{email}" id="inputDefault" type="email"  required>
                   </div>
                   <div class="form-group">
                     <label class="col-form-label" for="mdp1">Mot de passe (8-100 charactères sans accent)</label>

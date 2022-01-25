@@ -5,7 +5,11 @@
  */
 package org.signalement.webservice;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigInteger;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -45,6 +49,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  *
@@ -63,6 +68,12 @@ public class UtilisateurControl {
       
      @Autowired
     private TokenmobileRepository tokenmobileRepository;
+     
+       @Autowired
+    private SignalementRepository signalementRepository;
+       
+          @Autowired
+    private PhotoRepository photoRepository;
      
      @GetMapping("/wb/utilisateur/{id}/signalement")
         public ResponseEntity<List<Signalement>> getSignalementById(@PathVariable("id") int id) {
