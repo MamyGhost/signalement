@@ -166,6 +166,16 @@ public class UtilisateurControl {
          @PostMapping(value="/wb/utilisateur/{username}/signalement",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestPart("signalement") Signalement signalement,@RequestPart(value = "file", required = false)MultipartFile[] files ){
         // inserte admin
+        String[] lista={"jpg","png"};
+        List<String> myList = new ArrayList<String>(Arrays.asList(lista));
+        for(MultipartFile fileData : files){
+            String[] fileFrags = fileData.getOriginalFilename().split("\\.");
+            String extension = fileFrags[fileFrags.length-1];
+            System.out.println("Extension: "+extension);
+            if(myList.contains(extension) == false) 
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"les fichiers doivent etre des images");
+
+        }
        try {
         Utilisateur ut=utilisateurRepository.findByEmail(username);
         if(ut==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Uknowing User ");
