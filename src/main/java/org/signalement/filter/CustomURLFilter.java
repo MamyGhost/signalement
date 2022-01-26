@@ -35,23 +35,23 @@ public class CustomURLFilter implements Filter {
         HttpSession session = request.getSession();
 
         LOGGER.info("This Filter is only called when request is mapped for /customer resource");
-       // Admin admin = (Admin)session.getAttribute("admin");
+        Integer admin = (Integer)session.getAttribute("admin");
 
         //call next filter in the filter chain
-        filterChain.doFilter(request, response);
-        LOGGER.info("Logging Response :{}", response.getContentType());
-        return;
+//        filterChain.doFilter(request, response);
+//        LOGGER.info("Logging Response :{}", response.getContentType());
+//        return;
         
 
         
-//        if( admin!= null ){
-//           filterChain.doFilter(request, response);
-//           LOGGER.info("Logging Response :{}", response.getContentType());
-//           }
-//       else{
-//            RequestDispatcher rd =  request.getRequestDispatcher("/admin/login");
-//            rd.forward(request, response);
-//       }
+        if( admin!= null ){
+           filterChain.doFilter(request, response);
+           LOGGER.info("Logging Response :{}", response.getContentType());
+           }
+       else{
+            RequestDispatcher rd =  request.getRequestDispatcher("/admin/login");
+            rd.forward(request, response);
+       }
 
     }
 
