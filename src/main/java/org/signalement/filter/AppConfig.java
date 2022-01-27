@@ -23,6 +23,7 @@ public class AppConfig {
 
   registrationBean.setFilter(customURLFilter);
   registrationBean.addUrlPatterns("/admin/*");
+  registrationBean.addUrlPatterns("/manageResource/*");
   registrationBean.setOrder(2); //set precedence
   return registrationBean;
  }
