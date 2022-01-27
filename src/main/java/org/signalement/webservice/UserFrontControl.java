@@ -51,11 +51,15 @@ public class UserFrontControl {
         
      @PostMapping("/wb/userfront/login")
         public ResponseEntity<Userfront> authentification(@RequestBody Userfront user)  {
+             String sha1 = "";
             Region nreg= new Region();
             Userfront uData= userfrontRepository.findUserfrontlogin(user.getUsername(),user.getPassword(), user.getRegion().getId());
           if (uData==null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"diso le region ,na le username, na le password");
           }else{
+              if(tokenfrontRepository.findTokenNoexp(user.getUsername()).isEmpty()){
+                  if(tokenfrontRepository.findTokenexp(user.getUsername()) != null)  tokenfrontRepository.deleteTokenexp(user.getUsername());
+              
                Tokenfront token = new Tokenfront();
                token.setUserfront(uData);
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
@@ -65,8 +69,7 @@ public class UserFrontControl {
                 Date currentDatePlus = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
                token.setDateexp(currentDatePlus);
                String tok = date.toString()+uData.getUsername()+uData.getId().toString();
-               
-               String sha1 = "";
+
         
         // With the java libraries
         try {
@@ -80,6 +83,11 @@ public class UserFrontControl {
                        
                token.setToken(sha1);
                tokenfrontRepository.save(token);
+              }
+               else{
+                    Tokenfront token = tokenfrontRepository.findTokenNoexp(user.getUsername()).get(0);
+                    sha1= token.getToken();
+                }
                
                HttpHeaders headers = new HttpHeaders();
                headers.add("Authorization","Bearer " +sha1);
@@ -89,12 +97,12 @@ public class UserFrontControl {
           }
         }
         
-        @GetMapping("/wd/userfront")
+        @GetMapping("/wb/userfront")
     public List<Userfront> list() {
     return userfrontRepository.findAll();
 }
 
-    @GetMapping("/wd/userfront/{id}")
+    @GetMapping("/wb/userfront/{id}")
     public ResponseEntity<Userfront> listUser(@PathVariable("id") Integer id){
       Optional<Userfront> sData = userfrontRepository.findById(id);
      if (sData.isPresent()) {
