@@ -44,7 +44,6 @@ public class Userfront implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "Id")
-     @JsonIgnore
     private Integer id;
     @Column(name = "Username")
     private String username;

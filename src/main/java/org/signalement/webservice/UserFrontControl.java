@@ -50,7 +50,7 @@ public class UserFrontControl {
      
         
      @PostMapping("/wb/userfront/login")
-        public ResponseEntity<Userfront> authentification(@RequestBody Userfront user)  {
+        public ResponseEntity<String> authentification(@RequestBody Userfront user)  {
              String sha1 = "";
             Region nreg= new Region();
             Userfront uData= userfrontRepository.findUserfrontlogin(user.getUsername(),user.getPassword(), user.getRegion().getId());
@@ -91,9 +91,11 @@ public class UserFrontControl {
                
                HttpHeaders headers = new HttpHeaders();
                headers.add("Authorization","Bearer " +sha1);
+               headers.add("RegionID",user.getRegion().getId().toString());
                // return new ResponseEntity<>(
                //  uData, headers, HttpStatus.OK);
-               return ResponseEntity.ok().headers(headers).body(uData);
+               //return ResponseEntity.ok().headers(headers).body(uData);
+               return new ResponseEntity<>("Login succesful",headers, HttpStatus.OK);
           }
         }
         

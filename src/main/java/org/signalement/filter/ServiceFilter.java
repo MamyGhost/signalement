@@ -77,7 +77,7 @@ public class ServiceFilter implements Filter {
         LOGGER.info("This Filter is only called when request is mapped for /customer resource");
 
         //call next filter in the filter chain
-        String[] hors={"/wb/userFront/login","/wb/utilisateur/login","/wb/signalement/stat","/wb/utilisateur/signin"};
+        String[] hors={"/wb/userfront/login","/wb/utilisateur/login","/wb/signalement/stat","/wb/utilisateur/signin"};
         List<String> myList = new ArrayList<String>(Arrays.asList(hors));
 
          String path = request.getRequestURI();
@@ -100,7 +100,7 @@ public class ServiceFilter implements Filter {
          System.out.println("TOKENNNNNNNNN 2: "+authtoken);
            SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
            
-           if(path.contains("/wb/userFront/")){
+           if(path.contains("/wb/userfront/")){
          Tokenfront t = tokenfrontRepository.findByToken(authtoken);
              System.out.println("TOKENFRONT : "+t);
              if( t != null){

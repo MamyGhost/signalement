@@ -25,6 +25,9 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     @Query("select s from Signalement s where s.type.id= :type")
     public List<Signalement>findSignalementByType(@Param("type") int type);
     
+    @Query("select s from Signalement s where s.type.id= :type and s.region.id = :id")
+    public List<Signalement>findSignalementByTypeandRegion(@Param("type") int type,@Param("id") Integer id);
+    
 
     @Query("SELECT s FROM Signalement s WHERE s.type.id = :idtype")
    List<Signalement>  chercherpartype(@Param("idtype") int idtype);
@@ -98,6 +101,12 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     
     @Query("select s from Signalement s where s.statut.id= :statut")
     public List<Signalement>findSignalementByStatut(@Param("statut") int statut);
+    
+     @Query("select s from Signalement s where s.daty= :daty and s.region.id = :id")
+    public List<Signalement>findSignalementByDatyandRegion(@Param("daty") Date daty,@Param("id") Integer id);
+    
+    @Query("select s from Signalement s where s.statut.id= :statut and s.region.id = :id")
+    public List<Signalement>findSignalementByStatutandRegion(@Param("statut") int statut,@Param("id") Integer id);
 
 
     @Query(value = "select * from Signalement s order by s.daty DESC limit :inf,:sup",nativeQuery=true)
