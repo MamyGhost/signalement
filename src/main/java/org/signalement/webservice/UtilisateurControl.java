@@ -172,7 +172,7 @@ public class UtilisateurControl {
             String extension = fileFrags[fileFrags.length-1];
             System.out.println("Extension: "+extension);
             if(myList.contains(extension) == false) 
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"les fichiers doivent etre des images");
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"les fichiers doivent etre des images jpg ou png");
 
         }
         }
