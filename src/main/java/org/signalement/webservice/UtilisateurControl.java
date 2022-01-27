@@ -166,6 +166,7 @@ public class UtilisateurControl {
         // inserte admin
         String[] lista={"jpg","png"};
         List<String> myList = new ArrayList<String>(Arrays.asList(lista));
+        if(files != null){
         for(MultipartFile fileData : files){
             String[] fileFrags = fileData.getOriginalFilename().split("\\.");
             String extension = fileFrags[fileFrags.length-1];
@@ -173,6 +174,7 @@ public class UtilisateurControl {
             if(myList.contains(extension) == false) 
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"les fichiers doivent etre des images");
 
+        }
         }
        try {
         Utilisateur ut=utilisateurRepository.findByEmail(username);
@@ -187,7 +189,7 @@ public class UtilisateurControl {
         System.out.println("uploadRootPath=" + uploadRootPath);
         File uploadRootDir = new File(uploadRootPath);
         
-        System.out.println("FILEEEEEE:"+files[0].getOriginalFilename());
+        //System.out.println("FILEEEEEE:"+files[0].getOriginalFilename());
         if(files!=null){
                  for (MultipartFile fileData : files) {
 
