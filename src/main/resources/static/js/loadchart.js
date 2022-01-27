@@ -35,9 +35,9 @@ function setlinechart(className,data){
                 yAxes: [{
                     ticks: {
                         beginAtZero: true, 
-                        max: 100, 
+                        max: 10, 
                         min: 0, 
-                        stepSize: 10, 
+                        stepSize: 1, 
                         padding: 10
                     }
                 }],
