@@ -7,6 +7,47 @@
     //<canvas id="barChart_1"></canvas>
    //</div>
 
+function setBarChart(className,data){
+    const barChart_2 = document.getElementById(className).getContext('2d');
+    const barChart_2gradientStroke = barChart_2.createLinearGradient(0, 0, 0, 250);
+    barChart_2gradientStroke.addColorStop(0, "rgba(26, 51, 213, 1)");
+    barChart_2gradientStroke.addColorStop(1, "rgba(26, 51, 213, 0.5)");
+
+    barChart_2.height = 100;
+
+    new Chart(barChart_2, {
+        type: 'bar',
+        data: {
+            defaultFontFamily: 'Poppins',
+            labels: ["Vol", "Accidents", "Autres"],
+            datasets: [
+                {
+                    label: "My First dataset",
+                    data: data,
+                    borderColor: barChart_2gradientStroke,
+                    borderWidth: "0",
+                    backgroundColor: barChart_2gradientStroke, 
+                    hoverBackgroundColor: barChart_2gradientStroke
+                }
+            ]
+        },
+        options: {
+            legend: false, 
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    // Change here
+                    barPercentage: 0.5
+                }]
+            }
+        }
+    });
+}
+
 //dual line chart
 function setlinechart(className,data){
    const lineChart_1 = document.getElementById(className).getContext('2d');
@@ -74,9 +115,9 @@ function setpiechart(className,data){
 
             }],
              labels: [
-                 "vol",
-                 "accidents",
-                 "autre"
+                 "En Attente",
+                 "En cours",
+                 "Terminé"
 
              ]
         },
@@ -94,7 +135,8 @@ function setpiechart(className,data){
                     var lista = JSON.parse(string);
                     console.log(lista);
                     setlinechart("lineChartDemo",lista[0]);
-                    setpiechart("pieChartDemo",lista[1]);
+                    setpiechart("pieChartDemo",lista[2]);
+                    setBarChart("barChartDemo",lista[1])
                 })
                 .fail(function(jqxhr){
                     alert('An error, please insert data');

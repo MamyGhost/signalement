@@ -28,6 +28,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
   background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
+
+.numb{
+  text-align: end;
+  font-size: 15px;
+}
+
+
 .avatar {
   vertical-align: middle;
   width: 50px;
