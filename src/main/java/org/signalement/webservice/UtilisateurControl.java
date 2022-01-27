@@ -102,10 +102,8 @@ public class UtilisateurControl {
         
      @PostMapping("/wb/utilisateur/login")
         public ResponseEntity<String> authentification(@RequestBody Utilisateur utilisateur)  {
-
-            
+         
             String sha = "";
-            
             try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-1");
 	        digest.reset();
