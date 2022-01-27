@@ -9,6 +9,9 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.signalement.entities.Admin;
 import org.slf4j.Logger;
@@ -35,9 +38,20 @@ public class CustomURLFilter implements Filter {
         HttpSession session = request.getSession();
 
         LOGGER.info("This Filter is only called when request is mapped for /customer resource");
-        Integer admin = (Integer)session.getAttribute("admin");
+         String[] hors={"/admin/login","/admin/traitementlogin"};
+        List<String> myList = new ArrayList<String>(Arrays.asList(hors));
+        
 
-        //call next filter in the filter chain
+         String path = request.getRequestURI();
+        if (myList.contains(path)){
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
+        Integer admin = (Integer)session.getAttribute("admin");
+        System.out.println("ID:"+admin);
+
+//        //call next filter in the filter chain
 //        filterChain.doFilter(request, response);
 //        LOGGER.info("Logging Response :{}", response.getContentType());
 //        return;
@@ -47,10 +61,12 @@ public class CustomURLFilter implements Filter {
         if( admin!= null ){
            filterChain.doFilter(request, response);
            LOGGER.info("Logging Response :{}", response.getContentType());
+           return;
            }
        else{
             RequestDispatcher rd =  request.getRequestDispatcher("/admin/login");
             rd.forward(request, response);
+            return;
        }
 
     }
