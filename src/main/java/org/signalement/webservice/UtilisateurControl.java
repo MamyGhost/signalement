@@ -164,15 +164,17 @@ public class UtilisateurControl {
          @PostMapping(value="/wb/utilisateur/{username}/signalement",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestPart("signalement") Signalement signalement,@RequestPart(value = "file", required = false)MultipartFile[] files ){
         // inserte admin
-        String[] lista={"jpg","png"};
+        String[] lista={"jpg","png","JPG","PNG"};
         List<String> myList = new ArrayList<String>(Arrays.asList(lista));
+        if(files != null){
         for(MultipartFile fileData : files){
             String[] fileFrags = fileData.getOriginalFilename().split("\\.");
             String extension = fileFrags[fileFrags.length-1];
             System.out.println("Extension: "+extension);
             if(myList.contains(extension) == false) 
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"les fichiers doivent etre des images");
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"les fichiers doivent etre des images jpg ou png");
 
+        }
         }
        try {
         Utilisateur ut=utilisateurRepository.findByEmail(username);
@@ -187,7 +189,7 @@ public class UtilisateurControl {
         System.out.println("uploadRootPath=" + uploadRootPath);
         File uploadRootDir = new File(uploadRootPath);
         
-        System.out.println("FILEEEEEE:"+files[0].getOriginalFilename());
+        //System.out.println("FILEEEEEE:"+files[0].getOriginalFilename());
         if(files!=null){
                  for (MultipartFile fileData : files) {
 

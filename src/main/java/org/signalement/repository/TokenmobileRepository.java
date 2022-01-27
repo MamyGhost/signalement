@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import org.springframework.data.jpa.repository.Modifying;
 
 /**
  *
@@ -34,8 +35,9 @@ public interface TokenmobileRepository extends JpaRepository<Tokenmobile, Intege
     public Tokenmobile findTokenexp(@Param("mail")String mail);
     
     @Transactional
-    @Query("delete from Tokenmobile t where t.dateexp <= current_date and t.utilisateur.email= :mail")
-    public void deleteTokenexp(@Param("mail")String mail);
+    @Modifying
+    @Query( value="delete t from Tokenmobile t join utilisateur u on t.utilisateur=u.id  where u.email= :mail",nativeQuery=true)
+    public int deleteTokenexp(@Param("mail")String mail);
      
      
 
