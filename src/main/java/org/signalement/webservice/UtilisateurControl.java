@@ -164,7 +164,7 @@ public class UtilisateurControl {
          @PostMapping(value="/wb/utilisateur/{username}/signalement",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestPart("signalement") Signalement signalement,@RequestPart(value = "file", required = false)MultipartFile[] files ){
         // inserte admin
-        String[] lista={"jpg","png"};
+        String[] lista={"jpg","png","JPG","PNG"};
         List<String> myList = new ArrayList<String>(Arrays.asList(lista));
         if(files != null){
         for(MultipartFile fileData : files){
