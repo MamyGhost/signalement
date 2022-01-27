@@ -36,10 +36,14 @@ public class AdminControl {
     public List<Object[]> stat(){
         List<Object[]> ret=new ArrayList<Object[]>();
         List<Integer> type=signalementRepository.findGroupByType();
+        List<Integer> statut=signalementRepository.findGroupByStatut();
         List<Object[]> mensuel=signalementRepository.findstatmonthly(new Date());
         Object[] grouptype=type.toArray();
+        Object[] groupstatu=statut.toArray();
         ret.add(mensuel.get(0));
         ret.add(grouptype);
+        ret.add(groupstatu);
+        System.out.println(groupstatu.length);
         return ret;
     }
 

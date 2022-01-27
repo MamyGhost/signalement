@@ -136,6 +136,8 @@ public class AdminController {
         List<Object[]> rl = regionRepository.findRegionlow();
         long totalusers=utilisateurRepository.count();
         long totalsignal=signalementRepository.count();
+        List<Object[]> statR = signalementRepository.getStatRegion();
+        int nonAffecte = signalementRepository.findByRegionIsNull().size();
         
         String regionup="Aucun";
         String regionlow="Aucun";
@@ -156,12 +158,14 @@ public class AdminController {
             }
         }
             System.out.println("");
-         model.addAttribute("regionup",regionup);
-         model.addAttribute("regionlow",regionlow);
-         model.addAttribute("up",up);
-         model.addAttribute("down",down);
-         model.addAttribute("totalusers", totalusers);
-         model.addAttribute("totalsignal", totalsignal);
+        model.addAttribute("statRegion",statR);
+        model.addAttribute("NonAff",nonAffecte);
+        model.addAttribute("regionup",regionup);
+        model.addAttribute("regionlow",regionlow);
+        model.addAttribute("up",up);
+        model.addAttribute("down",down);
+        model.addAttribute("totalusers", totalusers);
+        model.addAttribute("totalsignal", totalsignal);
  
          return "index";
       

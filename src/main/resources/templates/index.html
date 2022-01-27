@@ -23,40 +23,40 @@
         <div class="col-md-6 col-lg-6">
           <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
             <div class="info">
-              <h5>Ultisateurs Mobiles</h5>
-              <p><b th:text="${totalusers}"></b></p>
+              <h5 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED;">Ultisateurs Mobiles</h5>
+              <p th:text="${totalusers}"></p>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-6">
           <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
             <div class="info">
-              <h5>Signalements</h5>
-              <p><b th:text="${totalsignal}"></b></p>
+              <h5 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED;">Signalements</h5>
+              <p th:text="${totalsignal}"></p>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-6">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
-              <h5>1er région sur les cas résolus</h5>
-              <p><b th:text ="${regionlow}+': '+${down}+' resolu'"></b></p>
+              <h5 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED;">1er région sur les cas résolus</h5>
+              <p th:text ="${regionlow}+': '+${down}+' resolu'"></p>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-6">
           <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
             <div class="info">
-              <h5>Region ayant le moins de cas résolus</h5>
-              <p><b th:text="${regionup}+': '+${up}+' resolu'"></b></p>
+              <h5 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED">Region ayant le moins de cas résolus</h5>
+              <p th:text="${regionup}+': '+${up}+' resolu'">></p>
             </div>
           </div>
         </div>
       </div>
-            <div class="row">
+      <div class="row">
         <div class="col-md-6">
           <div class="tile">
-            <h3 class="tile-title">Stat signalement annuel</h3>
+            <p><h3 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED;text-align: center;">Statistiques Annuel</h3></p>
             <div class="embed-responsive embed-responsive-16by9">
               <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
             </div>
@@ -64,18 +64,61 @@
         </div>
         <div class="col-md-6">
           <div class="tile">
-            <h3 class="tile-title">Nombre de signalements par type</h3>
+            <p><h3 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED;text-align: center;">Nombre de signalements par Statut</h3></p>
             <div class="embed-responsive embed-responsive-16by9">
               <canvas class="embed-responsive-item" id="pieChartDemo"></canvas>
             </div>
           </div>
         </div>
       </div>
-            <script th:src="@{/js/loadchart.js}"></script>
-            <script th:src="@{/js/Chart.bundle.min.js}"></script>
-            <script type="text/javascript">
-    
-    </script>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <p><h3 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED;text-align: center;">Statistique par Type</h3></p>
+            <div class="embed-responsive embed-responsive-16by9">
+              <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <p><h3 class="tile-title" style="font-family: Snell Roundhand, cursive;color: RED;text-align: center;">Statistique Régionale</h3></p>
+          <p><h4 style="font-family: Comic Sans MS;color :green;" th:text="@{'Signalement non-affecté: '+${NonAff}}"></h4><a role="button" name="id" href="/admin/affectation"
+                        class="btn btn-outline-success">Voir</a></p> 
+            <table class="table table-hover table-responsive">
+              <thead>
+                <tr>
+                  <th style="width: 20%;">Region</th>
+                  <th style="width: 20%;">En attente</th>
+                  <th style="width: 20%;">En cours de traitement</th>
+                  <th style="width: 20%;">Terminé</th>
+                  <th style="width: 25%;">Signalement Total</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="clickb">
+              <tr th:each="stat:${statRegion}">
+                <td th:text="${stat[1]}"></td>
+                <td style="text-align:end" th:text="${stat[3]}"></td>
+                <td style="text-align:end" th:text="${stat[4]}"></td>
+                <td style="text-align:end" th:text="${stat[5]}"></td>
+                <td style="text-align:end" th:text="${stat[2]}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+      <script th:src="@{/js/loadchart.js}"></script>
+      <script th:src="@{/js/Chart.bundle.min.js}"></script>
+      <script type="text/javascript">
+      </script>
       </main>
         
     </div>

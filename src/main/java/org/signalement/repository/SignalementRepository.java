@@ -88,11 +88,49 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
 " 	END \"isa\"\n" +
 " from type left join (select count(id) as isa,type as t from signalement group by type) as s on id=s.t;",nativeQuery=true)
     public List<Integer>findGroupByType();
+    
             
             
+    @Query(value="select\n" +
+"	region.id, \n" +
+"	region.Nom,\n" +
+"	count(Signalement.id) as nbr,\n" +
+"	sum(\n" +
+"		CASE Statut\n" +
+"			when 1 then 1\n" +
+"			else 0\n" +
+"		END\n" +
+"	) \"attente\",\n" +
+"	sum(\n" +
+"		CASE Statut\n" +
+"			when 2 then 1\n" +
+"			else 0\n" +
+"		END\n" +
+"	) \"traitement\",\n" +
+"	sum(\n" +
+"		CASE Statut\n" +
+"			when 3 then 1\n" +
+"			else 0\n" +
+"		END\n" +
+"	) \"termine\"\n" +
+"from region\n" +
+"	left join Signalement\n" +
+"	on region.id=Signalement.region\n" +
+"	group by region.id order by nbr DESC",nativeQuery=true)
+    public List<Object[]>getStatRegion();
+    
+    @Query(value="select \n" +
+"	CASE \n" +
+"		WHEN count(Signalement.id) is null then 0\n" +
+"		else count(Signalement.id)\n" +
+"	END \"nbr\"\n" +
+"from statut\n" +
+"left join\n" +
+"signalement on statut.id=Signalement.Statut\n" +
+"group by Statut.id order By Statut.id asc",nativeQuery=true)
+   public List<Integer>findGroupByStatut(); 
     
     
-
     @Query("select s from Signalement s where s.daty= :daty")
     public List<Signalement>findSignalementByDaty(@Param("daty") String daty);
     
