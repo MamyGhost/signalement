@@ -28,7 +28,7 @@
                                             <a href="#"><img 
                                                     th:src="@{/img/user.png}" alt="avatar" class="avatar"></a>
                                             <div class="content">
-                                                <h4 style="font-family: Comic Sans MS" th:text="${sign.getUtilisateur().getUsername()}"></h4>
+                                                <h4 style="font-family: Comic Sans MS" th:text="${sign.getUtilisateur().getEmail()}"></h4>
                                             </div> 
                                         </div>
                                     </div>
@@ -68,7 +68,8 @@
                                     </div>
                                 </div>
                                 <div class="post-content">
-                                    <h2 style="color: green;text-align: center;" th:text="${sign.getSignalnew().getTitre()}"></h2>
+                                    <h2 th:if="${sign.getSignalnew() == null}"  style="color: green;text-align: center;">Sans titre</h2>
+                                    <h2 th:unless="${sign.getSignalnew() == null}"  style="color: green;text-align: center;" th:text="${sign.getSignalnew().getTitre()}"></h2>
                                     <p th:text="@{' Satus :'+${sign.getStatut().getEtat()}}"></p>
                                     <p th:text="@{' Publié le :'+${sign.getDaty()}}"></p>
                                     <th:block th:if="${sign.getRegion() !=null}" >
