@@ -6,7 +6,8 @@
 package org.signalement.web;
 
 import java.util.List;
-
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import org.signalement.entities.Photo;
 import org.signalement.entities.Utilisateur;
 import org.signalement.entities.Region;
@@ -118,7 +119,17 @@ public class ResourceManagement {
         Region r = regionRepository.findById(regionid).get();
         usr.setRegion(r);
         usr.setUsername(usrName);
-        usr.setPassword(mdp);
+        String sha = "";
+            
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(mdp.getBytes("utf8"));
+            sha = String.format("%040x", new BigInteger(1, digest.digest()));
+        } catch (Exception e){
+            e.printStackTrace();
+        } 
+        usr.setPassword(sha);
         userFrontRepository.save(usr);
         return "redirect:/manageResource/userFrontRsrc";
    
@@ -147,8 +158,19 @@ public class ResourceManagement {
         if(bindingResult.hasErrors()){
 
         }
+        String sha = "";
+            
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(user.getPassword().getBytes("utf8"));
+            sha = String.format("%040x", new BigInteger(1, digest.digest()));
+        } catch (Exception e){
+            e.printStackTrace();
+        } 
+        user.setPassword(sha);
         userMobileRepository.save(user);
-        return "redirect:/manageResource/userMobileRsrc";
+        return "redirect:/manageResource/userMobileRsrc/0";
    
     } 
 
@@ -157,6 +179,17 @@ public class ResourceManagement {
         if(bindingResult.hasErrors()){
 
         }
+        String sha = "";
+            
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(user.getPassword().getBytes("utf8"));
+            sha = String.format("%040x", new BigInteger(1, digest.digest()));
+        } catch (Exception e){
+            e.printStackTrace();
+        } 
+        user.setPassword(sha);
         userFrontRepository.save(user);
         return "redirect:/manageResource/userFrontRsrc";
    
@@ -172,7 +205,7 @@ public class ResourceManagement {
     public String deleteSIGN(@PathVariable(name="id") Integer id){
         Signalement sign=signalementRepository.findById(id).get();
         signalementRepository.delete(sign);
-        return "redirect:/manageResource/signalementRsrc";
+        return "redirect:/manageResource/signalementRsrc/0";
    
     } 
 
@@ -230,7 +263,7 @@ public class ResourceManagement {
 
     @GetMapping("/manageResource/userMobileRsrc/{page}")
     public String manageUserMobile(@PathVariable(name="page") Integer page,Model model){
-        int nbrElement=2;
+        int nbrElement=5;
         double isa=userMobileRepository.count();
         int pageNumber=(int)(Math.ceil(isa/nbrElement));
         int first=page*nbrElement;

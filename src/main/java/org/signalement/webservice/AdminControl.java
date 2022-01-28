@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.signalement.entities.Admin;
 import org.signalement.repository.AdminRepository;
 import org.signalement.repository.SignalementRepository;
+import org.signalement.repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,18 +32,24 @@ public class AdminControl {
     
     @Autowired
     private SignalementRepository signalementRepository;
+
+    @Autowired
+    private TypeRepository typeRepository;
     
     @GetMapping("/wb/signalement/stat")
     public List<Object[]> stat(){
         List<Object[]> ret=new ArrayList<Object[]>();
         List<Integer> type=signalementRepository.findGroupByType();
         List<Integer> statut=signalementRepository.findGroupByStatut();
+        List<String> nameType=typeRepository.getListNom();
         List<Object[]> mensuel=signalementRepository.findstatmonthly(new Date());
         Object[] grouptype=type.toArray();
         Object[] groupstatu=statut.toArray();
+        Object[] nomType=nameType.toArray();
         ret.add(mensuel.get(0));
         ret.add(grouptype);
         ret.add(groupstatu);
+        ret.add(nomType);
         System.out.println(groupstatu.length);
         return ret;
     }
