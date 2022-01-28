@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.security.MessageDigest;
 import org.signalement.repository.TokenmobileRepository;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -113,6 +114,17 @@ public class UserFrontControl {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Userfront non trouve");
           }
 }
+    
+     @DeleteMapping("/wb/userfront/token/{tok}")
+        public ResponseEntity<String> logout(@PathVariable("tok") String token) {
+          try{
+          tokenfrontRepository.deleteByToken(token);
+          return new ResponseEntity<>("Logout reussi",HttpStatus.OK);
+          }catch(Exception ex){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erreur du serveur:"+ex.getMessage());
+          }
+
+        }
      
 }
 
