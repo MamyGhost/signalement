@@ -27,14 +27,41 @@
                 <div class="col">
                   <th:block th:if="${auteur == 'vide'}" >
                     <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <th:block th:if="${page != 0 }">
-                          <li class="page-item">
-                            <a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${page-1})}" aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                            </a>
-                          </li>
-                        </th:block>
+                    <ul class="pagination justify-content-end">
+                      <th:block th:if="${page != 0 }">
+                        <li class="page-item">
+                          <a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${page-1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                      </th:block>
+                      <th:block th:each="i:${#numbers.sequence(0,nbrPage-1)}">
+                        <li th:if="${i == page}"  class="page-item active"><span class="page-link" th:text="${i+1}">
+                          <span class="sr-only">(current)</span>
+                        </span>
+                        </li>
+                        <li th:unless="${i == page}"  class="page-item"><a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${i})}" th:text="${i+1}"></a></li>
+                      </th:block>  
+                      <th:block th:if="${ page<(nbrPage-1) }">                         
+                        <li class="page-item">
+                          <a class="page-link" th:href="@{/manageResource/signalementRsrc/{pagination}(pagination=${page+1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </th:block> 
+                    </ul>
+                  </nav>
+                  </th:block>
+                  <th:block th:unless="${auteur == 'vide'}" >
+                    <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                      <th:block th:if="${page != 0 }">
+                        <li class="page-item">
+                          <a class="page-link" th:href="@{/manageResource/signalementUserRsr/{id}/{pagination}(id=${user},pagination=${page-1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                      </th:block>
                       <th:block th:if="${nbrPage != 0 }" th:each="i:${#numbers.sequence(0,nbrPage-1)}">
                         <li th:if="${i == page}"  class="page-item active"><span class="page-link" th:text="${i+1}">
                           <span class="sr-only">(current)</span>
