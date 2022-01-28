@@ -71,6 +71,7 @@
                                     <h2 th:if="${sign.getSignalnew() == null}"  style="color: green;text-align: center;">Sans titre</h2>
                                     <h2 th:unless="${sign.getSignalnew() == null}"  style="color: green;text-align: center;" th:text="${sign.getSignalnew().getTitre()}"></h2>
                                     <p th:text="@{' Satus :'+${sign.getStatut().getEtat()}}"></p>
+                                    <p th:text="@{' Type :'+${sign.getType().getNom()}}"></p>
                                     <p th:text="@{' Publié le :'+${sign.getDaty()}}"></p>
                                     <th:block th:if="${sign.getRegion() !=null}" >
                                         <p th:text="@{' Region :'+${sign.getRegion().getNom()}}"></p> 
