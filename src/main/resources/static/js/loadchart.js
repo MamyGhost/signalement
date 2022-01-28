@@ -7,7 +7,7 @@
     //<canvas id="barChart_1"></canvas>
    //</div>
 
-function setBarChart(className,data){
+function setBarChart(className,data,label){
     const barChart_2 = document.getElementById(className).getContext('2d');
     const barChart_2gradientStroke = barChart_2.createLinearGradient(0, 0, 0, 250);
     barChart_2gradientStroke.addColorStop(0, "rgba(26, 51, 213, 1)");
@@ -19,7 +19,7 @@ function setBarChart(className,data){
         type: 'bar',
         data: {
             defaultFontFamily: 'Poppins',
-            labels: ["Vol", "Accidents", "Autres"],
+            labels: label,
             datasets: [
                 {
                     label: "My First dataset",
@@ -136,7 +136,7 @@ function setpiechart(className,data){
                     console.log(lista);
                     setlinechart("lineChartDemo",lista[0]);
                     setpiechart("pieChartDemo",lista[2]);
-                    setBarChart("barChartDemo",lista[1])
+                    setBarChart("barChartDemo",lista[1],lista[3])
                 })
                 .fail(function(jqxhr){
                     alert('An error, please insert data');
