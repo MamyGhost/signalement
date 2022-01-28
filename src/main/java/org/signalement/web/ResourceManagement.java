@@ -6,7 +6,8 @@
 package org.signalement.web;
 
 import java.util.List;
-
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import org.signalement.entities.Photo;
 import org.signalement.entities.Utilisateur;
 import org.signalement.entities.Region;
