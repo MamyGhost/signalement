@@ -154,7 +154,7 @@ public class ResourceManagement {
     }
 
     @PostMapping("/manageResource/saveMB")
-    public String insertMB(@ModelAttribute("utilisateur") Utilisateur user,BindingResult bindingResult){
+    public String insertMB(@ModelAttribute("utilisateur") Utilisateur user,BindingResult bindingResult) throws Exception{
         if(bindingResult.hasErrors()){
 
         }
