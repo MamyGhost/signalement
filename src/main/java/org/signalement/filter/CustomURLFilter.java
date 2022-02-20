@@ -36,7 +36,20 @@ public class CustomURLFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
+        
+        if("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } 
 
+         response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,observe");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
+        response.addHeader("Access-Control-Expose-Headers", "responseType");
+        response.addHeader("Access-Control-Expose-Headers", "observe");
+        
         LOGGER.info("This Filter is only called when request is mapped for /customer resource");
          String[] hors={"/admin/login","/admin/traitementlogin"};
         List<String> myList = new ArrayList<String>(Arrays.asList(hors));

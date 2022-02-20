@@ -35,11 +35,14 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import net.minidev.json.JSONObject;
 import org.signalement.entities.Photo;
+import org.signalement.entitiesMDB.SignalementmDB;
 import org.signalement.repository.PhotoRepository;
 import org.signalement.repository.SignalementRepository;
 import org.signalement.repository.SignalnewRepository;
 import org.signalement.repository.TokenmobileRepository;
+import org.signalement.repositorymDB.SignalementRepositorymDB;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -55,6 +58,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  *
  * @author Mamitiana
  */
+
 @RestController
 public class UtilisateurControl {
      
@@ -72,8 +76,13 @@ public class UtilisateurControl {
        @Autowired
     private SignalementRepository signalementRepository;
        
+           @Autowired
+    private SignalementRepositorymDB signalementRepositorymDB;
+       
           @Autowired
     private PhotoRepository photoRepository;
+          
+           
      
      @GetMapping("/wb/utilisateur/{id}/signalement")
         public ResponseEntity<List<Signalement>> getSignalementById(@PathVariable("id") int id) {
@@ -93,7 +102,9 @@ public class UtilisateurControl {
         public ResponseEntity<String> logout(@PathVariable("tok") String token) {
           try{
           tokenmobileRepository.deleteByToken(token);
-          return new ResponseEntity<>("Logout reussi",HttpStatus.OK);
+          JSONObject jo = new JSONObject();
+          jo.put("message", "Logout reussi");
+          return new ResponseEntity<>(jo.toJSONString(),HttpStatus.OK);
           }catch(Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erreur du serveur:"+ex.getMessage());
           }
@@ -153,7 +164,10 @@ public class UtilisateurControl {
                
                HttpHeaders headers = new HttpHeaders();
                headers.add("Authorization", "Bearer "+sha1);
-               return new ResponseEntity<>("Login succesful",
+               JSONObject jo = new JSONObject();
+               jo.put("message", "Login succesful");
+               jo.put("email", utilisateur.getEmail());
+               return new ResponseEntity<>(jo.toJSONString(),
 
                 headers, HttpStatus.OK);
           }
@@ -183,6 +197,7 @@ public class UtilisateurControl {
         
         //signalnewRepository.save(signalement.getSignalnew().getTitre());
         Signalement sAdded = signalementRepository.save(signalement);
+         List<Photo> photolist = new ArrayList(); 
          // Root Directory.
         String path = request.getServletContext().getRealPath("");
         String uploadRootPath=path.split("webapp\\\\")[0]+"resources\\static\\img";
@@ -196,6 +211,7 @@ public class UtilisateurControl {
          // Client File Name
          String name = fileData.getOriginalFilename();
          System.out.println("Client File Name = " + name);
+        
 
          if (name != null && name.length() > 0) {
             try {
@@ -206,10 +222,10 @@ public class UtilisateurControl {
                stream.write(fileData.getBytes());
                stream.close();
                Photo photo=new Photo();
-               photo.setPhoto(uploadRootPath+"\\"+fileData.getOriginalFilename());
+               photo.setPhoto(fileData.getOriginalFilename());
                photo.setSignalement(sAdded);
                photoRepository.save(photo);
-              
+               photolist.add(new Photo(photo.getId(),photo.getPhoto()));
 
                System.out.println("Write file: " + serverFile);
             } catch (Exception e) {
@@ -220,7 +236,14 @@ public class UtilisateurControl {
          }
       }
         }
-     
+        sAdded.setPhotoList(photolist);
+        System.out.println("ID value:"+sAdded.getId());
+        Utilisateur temp= new Utilisateur(sAdded.getUtilisateur().getId(),sAdded.getUtilisateur().getEmail(),sAdded.getUtilisateur().getDateinsc());
+        SignalementmDB signalmongo= new SignalementmDB(sAdded.getId(),sAdded.getDescription(),sAdded.getDaty(),sAdded.getLatitude().doubleValue(),sAdded.getLongitude().doubleValue(),temp,sAdded.getType(),sAdded.getRegion(),sAdded.getStatut(),sAdded.getSignalnew(),photolist);
+        signalementRepositorymDB.save(signalmongo);
+        //temp.getSignalementList().add(signalmongo);
+        //utilisateurRepositorymDB.save(temp);
+        System.out.println("Photo:"+signalmongo.getPhotoList());
         if (sAdded == null)
             return ResponseEntity.noContent().build();
         URI location = ServletUriComponentsBuilder
@@ -231,9 +254,11 @@ public class UtilisateurControl {
        // System.out.println("STATUT: "+signalementRepository.findById(62).get().getStatut().getEtat());
         
        //return ResponseEntity.build();
+       JSONObject jo = new JSONObject();
+       jo.put("message", "Signalement ajouté avec succes");
          return ResponseEntity.ok()
         //.header("Custom-Header", "foo")
-        .body("Signalement ajouté avec succes");
+        .body(jo.toJSONString());
     } catch (Exception e) {
      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erreur du serveur :"+e);
     }
@@ -263,7 +288,11 @@ public class UtilisateurControl {
 		}
            
             finaly.setDateinsc(new Date());
-            utilisateurRepository.save(finaly);
+            Utilisateur ut = utilisateurRepository.save(finaly);
+            //UtilisateurmDB utmonngo=new UtilisateurmDB(ut.getId(),ut.getEmail(),ut.getPassword(),ut.getDateinsc());
+            //utilisateurRepositorymDB.save(utmonngo);
+             JSONObject jo = new JSONObject();
+            jo.put("message", "Inscription termine");
             URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .buildAndExpand(utilisateur.getId())
@@ -271,7 +300,7 @@ public class UtilisateurControl {
         //return ResponseEntity.created(location).build();
          return ResponseEntity.ok()
         .location(location)
-        .body(finaly.getEmail());
+        .body(jo.toJSONString());
         }
   
 }

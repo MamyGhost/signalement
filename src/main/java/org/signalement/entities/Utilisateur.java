@@ -1,4 +1,5 @@
-/*
+
+        /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -38,9 +39,7 @@ import org.springframework.web.server.ResponseStatusException;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")})
-@JsonIdentityInfo(scope = Utilisateur.class,
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
+
 
 public class Utilisateur implements Serializable {
 
@@ -63,6 +62,14 @@ public class Utilisateur implements Serializable {
     @Column(name = "dateinsc")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateinsc ;
+
+    public Utilisateur(Integer id, String email, Date dateinsc) {
+        this.id = id;
+        this.email = email;
+        this.dateinsc = dateinsc;
+    }
+    
+    
 
 
     public Utilisateur() {
@@ -150,10 +157,6 @@ public class Utilisateur implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "org.signalement.entities.Utilisateur[ id=" + id + " ]";
-    }
     
      public boolean isValidEmailAddress(String email) {
            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";

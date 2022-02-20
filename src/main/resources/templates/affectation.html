@@ -58,7 +58,7 @@
                                   </div>
                             </td>
                             <td>
-                            <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModal">Voir description</button>
+                            <button type="button" class="btn btn-outline-info" data-toggle="modal" th:attr="data-target='#myModel'+${s.getId()}" >Voir description</button>
                             </td>
                             <td th:text="${s.getType().getNom()}"></td>
                             <td class="lat" th:text="${s.getLatitude()}"></td>
@@ -75,7 +75,7 @@
                             </td>
                             </form>
                               <!-- Modal -->
-                            <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal fade" th:id="'myModel'+${s.getId()}" role="dialog">
                               <div class="modal-dialog">
 
                                 <!-- Modal content-->

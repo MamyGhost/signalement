@@ -65,16 +65,26 @@ public class ServiceFilter implements Filter {
         
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.addHeader("Access-Control-Allow-Origin","http://localhost:8085");
+        response.addHeader("Access-Control-Allow-Origin","*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With,Content-Type, Access-Control-Request-Method, Access-Control-RequestHeaders,authorization");
         response.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin,Access-Control-Allow-Credentials, authorization");
+        
+        
+        if ( request.getMethod().equals("OPTIONS") ) {
+            
+            response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);
+            return;
+        }
+       
+        
         ServletContext servletContext = request.getServletContext();
         WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
         tokenfrontRepository = webApplicationContext.getBean(TokenfrontRepository.class);
         tokenmobileRepository = webApplicationContext.getBean(TokenmobileRepository.class);
         utilisateurRepository = webApplicationContext.getBean(UtilisateurRepository.class);
 
-        LOGGER.info("This Filter is only called when request is mapped for /customer resource");
+       // LOGGER.info("This Filter is only called when request is mapped for /customer resource");
 
         //call next filter in the filter chain
         String[] hors={"/wb/userfront/login","/wb/utilisateur/login","/wb/signalement/stat","/wb/utilisateur/signin"};
@@ -123,7 +133,7 @@ public class ServiceFilter implements Filter {
             if(tm.getDateexp().after(new Date()))
             {
                 filterChain.doFilter(request, response);
-                LOGGER.info("Logging Response :{}", response.getContentType());
+               // LOGGER.info("Logging Response :{}", response.getContentType());
                 return;
             }
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalide token Expiré");

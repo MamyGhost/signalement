@@ -32,9 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Province.findAll", query = "SELECT p FROM Province p")})
-@JsonIdentityInfo(scope = Province.class,
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id")
 
 public class Province implements Serializable {
 

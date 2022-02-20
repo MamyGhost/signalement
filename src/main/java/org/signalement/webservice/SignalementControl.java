@@ -36,7 +36,7 @@ public class SignalementControl {
      @Autowired
     private SignalementRepository signalementRepository;
      
-     @GetMapping("/wb/signalement/{id}")
+     @GetMapping("/wb/utilisateur/signalement/{id}")
         public ResponseEntity<Signalement> getSignalementById(@PathVariable("id") int id) {
           Optional<Signalement> sData = signalementRepository.findById(id);
 
@@ -122,7 +122,7 @@ public class SignalementControl {
     
 }
 
-@GetMapping("/wb/region/{token}/signalement")
+@GetMapping("/wb/userfront/region/{token}/signalement")
         public ResponseEntity<List<Signalement>> getSignalementByRegion(@PathVariable("token") String token) {
           
           List<Signalement> sData = signalementRepository.findSignalementByRegion(token);

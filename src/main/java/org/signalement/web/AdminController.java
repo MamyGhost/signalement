@@ -16,11 +16,13 @@ import org.signalement.entities.Admin;
 import org.signalement.entities.Region;
 import org.signalement.entities.Signalement;
 import org.signalement.entities.Signalnew;
+import org.signalement.entitiesMDB.SignalementmDB;
 import org.signalement.repository.AdminRepository;
 import org.signalement.repository.RegionRepository;
 import org.signalement.repository.SignalementRepository;
 import org.signalement.repository.SignalnewRepository;
 import org.signalement.repository.UtilisateurRepository;
+import org.signalement.repositorymDB.SignalementRepositorymDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +50,9 @@ public class AdminController {
             
     @Autowired
     private SignalnewRepository signalnewRepository;
+    
+     @Autowired
+    private SignalementRepositorymDB signalementRepositorymDB;
     
     @GetMapping("/admin/login")
     public String login(@RequestParam(name="error", defaultValue="0") int error,Model model ){
@@ -121,11 +126,22 @@ public class AdminController {
         Signalement s=signalementRepository.findById(id).get();
         Region r = regionRepository.findById(regionid).get();
         s.setRegion(r);
+        Region rdb = new Region();
+        rdb.setId(r.getId());
+        rdb.setNom(r.getNom());
+        SignalementmDB sdb =  signalementRepositorymDB.findById(id).get();
+        sdb.setId(s.getId());
+        sdb.setRegion(rdb);
         signalementRepository.save(s);
         Signalnew vao=new Signalnew();
         vao.setTitre(titre);
         vao.setSignalement(s);
-        signalnewRepository.save(vao);
+        Signalnew nouveau =signalnewRepository.save(vao);
+        Signalnew nmdb = new Signalnew();
+        nmdb.setId(nouveau.getId());
+        nmdb.setTitre(nouveau.getTitre());
+        sdb.setSignalnew(nmdb);
+        signalementRepositorymDB.save(sdb);
         return "redirect:/admin/affectation";
    
     }

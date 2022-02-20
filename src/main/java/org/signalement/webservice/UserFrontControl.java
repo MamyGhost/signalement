@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.security.MessageDigest;
+import net.minidev.json.JSONObject;
 import org.signalement.repository.TokenmobileRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.server.ResponseStatusException;
@@ -96,7 +97,9 @@ public class UserFrontControl {
                // return new ResponseEntity<>(
                //  uData, headers, HttpStatus.OK);
                //return ResponseEntity.ok().headers(headers).body(uData);
-               return new ResponseEntity<>("Login succesful",headers, HttpStatus.OK);
+               JSONObject jo = new JSONObject();
+               jo.put("message", "Login succesful");
+               return new ResponseEntity<>(jo.toJSONString(),headers, HttpStatus.OK);
           }
         }
         
@@ -119,7 +122,9 @@ public class UserFrontControl {
         public ResponseEntity<String> logout(@PathVariable("tok") String token) {
           try{
           tokenfrontRepository.deleteByToken(token);
-          return new ResponseEntity<>("Logout reussi",HttpStatus.OK);
+          JSONObject jo = new JSONObject();
+               jo.put("message", "Logout reussi");
+          return new ResponseEntity<>(jo.toJSONString(),HttpStatus.OK);
           }catch(Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erreur du serveur:"+ex.getMessage());
           }
