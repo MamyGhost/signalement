@@ -47,11 +47,13 @@ import javax.servlet.http.HttpServletRequest;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.signalement.entities.Photo;
+import org.signalement.entities.Type;
 import org.signalement.entitiesMDB.SignalementmDB;
 import org.signalement.repository.PhotoRepository;
 import org.signalement.repository.SignalementRepository;
 import org.signalement.repository.SignalnewRepository;
 import org.signalement.repository.TokenmobileRepository;
+import org.signalement.repository.TypeRepository;
 import org.signalement.repositorymDB.SignalementRepositorymDB;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -91,6 +93,10 @@ public class UtilisateurControl {
        
           @Autowired
     private PhotoRepository photoRepository;
+          
+                   @Autowired
+    private TypeRepository typeRepository;
+          
           
            
      
@@ -179,6 +185,16 @@ public class UtilisateurControl {
                jo.put("email", utilisateur.getEmail());
                return new ResponseEntity<>(jo.toJSONString(),
                 headers, HttpStatus.OK);
+          }
+        }
+        
+        @GetMapping("/wb/utilisateur/type")
+        public ResponseEntity<List<Type>> getType() {
+          List<Type> sData = typeRepository.findAll();
+          if (!sData.isEmpty()) {
+            return new ResponseEntity<>(sData, HttpStatus.OK);
+          } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Erreur de serveur");
           }
         }
         
