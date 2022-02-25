@@ -5,11 +5,20 @@
  */
 package org.signalement.webservice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -36,6 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 import org.signalement.entities.Photo;
 import org.signalement.entitiesMDB.SignalementmDB;
 import org.signalement.repository.PhotoRepository;
@@ -168,7 +178,6 @@ public class UtilisateurControl {
                jo.put("message", "Login succesful");
                jo.put("email", utilisateur.getEmail());
                return new ResponseEntity<>(jo.toJSONString(),
-
                 headers, HttpStatus.OK);
           }
         }
@@ -176,10 +185,13 @@ public class UtilisateurControl {
         
 
          @PostMapping(value="/wb/utilisateur/{username}/signalement",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
-    public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestPart("signalement") Signalement signalement,@RequestPart(value = "file", required = false)MultipartFile[] files ){
+    public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestParam(value="signalement") String s,@RequestPart(value = "file", required = false)MultipartFile[] files ) throws JsonProcessingException{
         // inserte admin
         String[] lista={"jpg","png","JPG","PNG"};
         List<String> myList = new ArrayList<String>(Arrays.asList(lista));
+        ObjectMapper mapper = new ObjectMapper();
+        Signalement signalement=mapper.readValue(s,Signalement.class);
+
         if(files != null){
         for(MultipartFile fileData : files){
             String[] fileFrags = fileData.getOriginalFilename().split("\\.");
@@ -205,6 +217,10 @@ public class UtilisateurControl {
         File uploadRootDir = new File(uploadRootPath);
         
         //System.out.println("FILEEEEEE:"+files[0].getOriginalFilename());
+        
+        URL url;
+        url = new URL("https://api.imgur.com/3/image");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         if(files!=null){
                  for (MultipartFile fileData : files) {
 
@@ -219,10 +235,59 @@ public class UtilisateurControl {
                File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
 
                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+               
+                
+                String dataImage = Base64.encode(fileData.getBytes());
+                String data = URLEncoder.encode("image", "UTF-8") + "="
+                + URLEncoder.encode(dataImage, "UTF-8");
+                
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Authorization", "Client-ID " + "2a094b74c1e7584");
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type",
+                "application/x-www-form-urlencoded");
+                
+                
+                
+                StringBuilder stb = new StringBuilder();
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+
+                // Get the response
+                BufferedReader rd = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = rd.readLine()) != null) {
+                    stb.append(line).append("\n");
+                }
+                wr.close();
+                rd.close();
+
+                System.out.println(stb.toString());
+
+                String val= stb.toString();
+                JSONObject jobj = (JSONObject) JSONValue.parse(val); // Pass the Json formatted String
+
+                String data1 = (String) jobj.get("data").toString(); 
+
+                JSONObject jobj1 = (JSONObject) JSONValue.parse(data1); // Pass the Json formatted String
+                String valiny="";
+  
+                Object value = jobj1.get("link");
+                valiny=value.toString();
+                
+                System.out.println("PAth IMG:"+valiny);
+                
+                
+                System.out.println(data);
                stream.write(fileData.getBytes());
                stream.close();
                Photo photo=new Photo();
-               photo.setPhoto(fileData.getOriginalFilename());
+              // photo.setPhoto(fileData.getOriginalFilename());
+               photo.setPhoto(valiny);
                photo.setSignalement(sAdded);
                photoRepository.save(photo);
                photolist.add(new Photo(photo.getId(),photo.getPhoto()));
@@ -235,10 +300,11 @@ public class UtilisateurControl {
             }
          }
       }
+             conn.disconnect();
         }
         sAdded.setPhotoList(photolist);
         System.out.println("ID value:"+sAdded.getId());
-        Utilisateur temp= new Utilisateur(sAdded.getUtilisateur().getId(),sAdded.getUtilisateur().getEmail(),sAdded.getUtilisateur().getDateinsc());
+        Utilisateur temp= new Utilisateur(sAdded.getUtilisateur().getId(),sAdded.getUtilisateur().getEmail(),sAdded.getUtilisateur().getDateinsc(),sAdded.getUtilisateur().getUsername());
         SignalementmDB signalmongo= new SignalementmDB(sAdded.getId(),sAdded.getDescription(),sAdded.getDaty(),sAdded.getLatitude().doubleValue(),sAdded.getLongitude().doubleValue(),temp,sAdded.getType(),sAdded.getRegion(),sAdded.getStatut(),sAdded.getSignalnew(),photolist);
         signalementRepositorymDB.save(signalmongo);
         //temp.getSignalementList().add(signalmongo);
@@ -288,6 +354,7 @@ public class UtilisateurControl {
 		}
            
             finaly.setDateinsc(new Date());
+            finaly.setUsername(utilisateur.getUsername());
             Utilisateur ut = utilisateurRepository.save(finaly);
             //UtilisateurmDB utmonngo=new UtilisateurmDB(ut.getId(),ut.getEmail(),ut.getPassword(),ut.getDateinsc());
             //utilisateurRepositorymDB.save(utmonngo);

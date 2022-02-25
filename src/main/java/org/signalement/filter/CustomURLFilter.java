@@ -36,10 +36,6 @@ public class CustomURLFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
-        
-        if("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-        } 
 
          response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
@@ -51,18 +47,30 @@ public class CustomURLFilter implements Filter {
         response.addHeader("Access-Control-Expose-Headers", "observe");
         
         LOGGER.info("This Filter is only called when request is mapped for /customer resource");
-         String[] hors={"/admin/login","/admin/traitementlogin"};
+        String[] hors={"/admin/login","/admin/traitementlogin"};
         List<String> myList = new ArrayList<String>(Arrays.asList(hors));
         
 
          String path = request.getRequestURI();
-        if (myList.contains(path)){
-            filterChain.doFilter(request, response);
-            return;
+          System.out.print("PATH:"+path);
+//        if (myList.(path)){
+//            System.out.print("tonga ato");
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+
+        for(String url:myList){
+            if(url.contains(path) || path.contains(url)){
+                 System.out.print("tonga ato");
+                 filterChain.doFilter(request, response);
+                 return;
+            }
         }
+        
         
         Integer admin = (Integer)session.getAttribute("admin");
         System.out.println("ID:"+admin);
+       // System.out.print("tonga ato ledala");
 
 //        //call next filter in the filter chain
 //        filterChain.doFilter(request, response);
@@ -78,7 +86,8 @@ public class CustomURLFilter implements Filter {
            }
        else{
             RequestDispatcher rd =  request.getRequestDispatcher("/admin/login");
-            rd.forward(request, response);
+           //response.sendRedirect("/admin/login");
+            //rd.forward(request, response);
             return;
        }
 

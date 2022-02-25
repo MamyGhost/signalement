@@ -51,6 +51,8 @@ public class Utilisateur implements Serializable {
     private Integer id;
     @Column(name = "Email")
     private String email;
+    @Column(name = "Username")
+    private String username;
     @Column(name = "Password")
     private String password;
      @JsonIgnore
@@ -63,10 +65,11 @@ public class Utilisateur implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateinsc ;
 
-    public Utilisateur(Integer id, String email, Date dateinsc) {
+    public Utilisateur(Integer id, String email, Date dateinsc,String username) {
         this.id = id;
         this.email = email;
         this.dateinsc = dateinsc;
+        this.username = username;
     }
     
     
@@ -82,6 +85,15 @@ public class Utilisateur implements Serializable {
     public Integer getId() {
         return id;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
 
     public void setId(Integer id) {
         this.id = id;
