@@ -70,8 +70,7 @@ public class ServiceFilter implements Filter {
         response.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin,Access-Control-Allow-Credentials, authorization");
         
         
-        if ( request.getMethod().equals("OPTIONS") ) {
-            
+        if ( request.getMethod().equals("OPTIONS") ) { 
             response.setStatus(HttpServletResponse.SC_OK);
             filterChain.doFilter(request, response);
             return;
