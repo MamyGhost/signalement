@@ -201,7 +201,7 @@ public class UtilisateurControl {
         
 
          @PostMapping(value="/wb/utilisateur/{username}/signalement",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
-    public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestParam(value="signalement") String s,@RequestPart(value = "file", required = false)MultipartFile[] files ) throws JsonProcessingException{
+    public ResponseEntity<String> save(HttpServletRequest request,@PathVariable("username") String username,@RequestParam(value="signalement") String s,@RequestParam(value = "file", required = false)MultipartFile[] files ) throws JsonProcessingException{
         // inserte admin
         String[] lista={"jpg","png","JPG","PNG"};
         List<String> myList = new ArrayList<String>(Arrays.asList(lista));

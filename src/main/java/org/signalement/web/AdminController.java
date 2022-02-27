@@ -16,11 +16,13 @@ import org.signalement.entities.Admin;
 import org.signalement.entities.Region;
 import org.signalement.entities.Signalement;
 import org.signalement.entities.Signalnew;
+import org.signalement.entities.Type;
 import org.signalement.entitiesMDB.SignalementmDB;
 import org.signalement.repository.AdminRepository;
 import org.signalement.repository.RegionRepository;
 import org.signalement.repository.SignalementRepository;
 import org.signalement.repository.SignalnewRepository;
+import org.signalement.repository.TypeRepository;
 import org.signalement.repository.UtilisateurRepository;
 import org.signalement.repositorymDB.SignalementRepositorymDB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,10 @@ public class AdminController {
     
      @Autowired
     private SignalementRepositorymDB signalementRepositorymDB;
+     
+      @Autowired
+    private TypeRepository typeRepository;
+     
     
     @GetMapping("/admin/login")
     public String login(@RequestParam(name="error", defaultValue="0") int error,Model model ){
@@ -141,6 +147,8 @@ public class AdminController {
         nmdb.setId(nouveau.getId());
         nmdb.setTitre(nouveau.getTitre());
         sdb.setSignalnew(nmdb);
+        Type typa =  typeRepository.findById(2).get();
+        sdb.setType(typa);
         signalementRepositorymDB.save(sdb);
         return "redirect:/admin/affectation";
    

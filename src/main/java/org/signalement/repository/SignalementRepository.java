@@ -164,6 +164,28 @@ public interface SignalementRepository extends JpaRepository<Signalement, Intege
     @Query(value = "select * from signalement s join userfront u on s.region=u.region join tokenfront t on u.id=t.userfront where t.token= :token", nativeQuery = true)
     public List<Signalement>findSignalementByRegion(@Param("token") String token);
  
+    
+    
+    @Query("select s from Signalement s where s.description= :description and s.region.id = :id")
+    public List<Signalement>findSignalementByNomandRegion(@Param("description") String description,@Param("id") Integer id);
+    
+     @Query("select s from Signalement s where s.description= :description and s.region.id = :id")
+    public Signalement getSignalementByNomandRegion(@Param("description") String description,@Param("id") Integer id);
+
+
+  
+    @Query("select s from Signalement s where s.statut.etat= :statut and s.region.id = :id")
+    public List<Signalement>findSignalementByStatutandRegion(@Param("statut") String statut,@Param("id") Integer id);
+
+
+     @Query("select s from Signalement s where s.type.nom= :type and s.region.id = :id")
+    public List<Signalement>findSignalementByTypeandRegion(@Param("type") String type,@Param("id") Integer id);
+
+       @Query("select s from Signalement s where s.type.nom= :type and s.daty= :daty and s.statut.etat= :statut and s.region.id = :id")
+    public List<Signalement>findSignalementByRecherche(@Param("type") String type,@Param("daty") Date daty,@Param("statut") String statut,@Param("id") Integer id);
+
+   
+
 
 }
 

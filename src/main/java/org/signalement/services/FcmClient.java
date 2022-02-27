@@ -35,6 +35,7 @@ import com.google.firebase.messaging.Notification;
  */
 @Service
 public class FcmClient {
+    
 
   public FcmClient(FcmSettings settings) {
     //Path p = Paths.get(System.getProperty("user.dir")+settings.getServiceAccountFile());
@@ -51,7 +52,7 @@ public class FcmClient {
     }
   }
   
-  public void sendPersonalMessage(String clientToken, Map<String, String> data)
+  public void sendPersonalMessage(String clientToken, Map<String, String> data,String user)
       throws InterruptedException, ExecutionException {
     AndroidConfig androidConfig = AndroidConfig.builder()
         .setTtl(Duration.ofMinutes(2).toMillis()).setCollapseKey("personal")
@@ -65,8 +66,8 @@ public class FcmClient {
 
     Message message = Message.builder().putAllData(data).setToken(clientToken)
         .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig)
-        .setNotification(Notification.builder().setTitle("Personal Message")
-            .setBody("A Personal Message").build())
+        .setNotification(Notification.builder().setTitle("Message du serveur")
+            .setBody("l'un des signalments de l'user :"+ user +" a changé de statut").build())
         .build();
 
     String response = FirebaseMessaging.getInstance().sendAsync(message).get();

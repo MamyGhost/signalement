@@ -9,6 +9,7 @@ package org.signalement.services;
  *
  * @author Mamitiana
  */
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -42,16 +43,17 @@ public class PersonalMessageSender {
   }
 
  // @Scheduled(fixedDelay = 30_000)
-  void sendPushMessages() {
-    for (String token : this.tokenRegistry) {
+  public void sendPushMessages(String token,String message,String user) {
       System.out.println("Sending personal message to: " + token);
       Map<String, String> data = new HashMap<>();
-      data.put("id", String.valueOf(++this.id));
-      data.put("text", String.valueOf(Math.random() * 1000));
+      data.put("id", "Message du serveur");
+      data.put("text", message);
+      data.put("date",new Date().toString());
+       System.out.println("date: " + data.get("date"));
 
       
         try {
-            this.fcmClient.sendPersonalMessage(token, data);
+            this.fcmClient.sendPersonalMessage(token, data,user);
         } catch (InterruptedException ex) {
             Logger.getLogger(PersonalMessageSender.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
@@ -60,7 +62,7 @@ public class PersonalMessageSender {
      
       
       
-    }
+    
   }
 
 }

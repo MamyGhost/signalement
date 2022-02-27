@@ -4,12 +4,15 @@
  * and open the template in the editor.
  */
 package org.signalement.repository;
+import java.util.List;
 import org.signalement.entities.Statut;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 /**
  *
  * @author Mamitiana
  */
 public interface StatutRepository extends JpaRepository<Statut, Integer> {
-    
+      @Query(value="select * from statut",nativeQuery=true)
+    public List<Statut>getListeStatut();
 }

@@ -12,13 +12,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.signalement.entities.Signalement;
+import org.signalement.entities.Statut;
+import org.signalement.entities.Utilisateur;
 import org.signalement.repository.SignalementRepository;
+import org.signalement.repository.StatutRepository;
+import org.signalement.services.FcmClient;
+import org.signalement.services.FcmSettings;
+import org.signalement.services.PersonalMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +42,9 @@ public class SignalementControl {
     
      @Autowired
     private SignalementRepository signalementRepository;
+     
+      @Autowired
+    private StatutRepository statutRepository;
      
      @GetMapping("/wb/utilisateur/signalement/{id}")
         public ResponseEntity<Signalement> getSignalementById(@PathVariable("id") int id) {
@@ -133,5 +143,38 @@ public class SignalementControl {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
           }
         }
+        
+
+
+         @GetMapping("/wb/userfront/signalement/description")
+    public ResponseEntity<List<Signalement>> getSignalementByNom(@RequestParam(name="description") String description,@RequestParam(name="idregion") int idregion) throws ParseException{
+      List<Signalement> sData= signalementRepository.findSignalementByNomandRegion(description,idregion);
+    if (!sData.isEmpty()) {
+            return new ResponseEntity<>(sData, HttpStatus.OK);
+          } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
+          }
+}
+
+     @GetMapping("/wb/userfront/signalement/description2")
+    public ResponseEntity<Signalement> getSignalementByNom2(@RequestParam(name="description") String description,@RequestParam(name="idregion") int idregion) throws ParseException{
+      Signalement sData= signalementRepository.getSignalementByNomandRegion(description,idregion);
+        
+      return new ResponseEntity<>(sData, HttpStatus.OK);
+}
+
+
+        @GetMapping("/wb/userfront/signalement/recherche")
+    public ResponseEntity<List<Signalement>> listSignalementParRecherche(@RequestParam(name="type") String type,@RequestParam(name="daty") String daty,@RequestParam(name="statut") String statut,@RequestParam(name="idregion") int idregion) throws ParseException{
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(daty);
+      List<Signalement> sData= signalementRepository.findSignalementByRecherche(type,date1,statut,idregion);
+    if (!sData.isEmpty()) {
+            return new ResponseEntity<>(sData, HttpStatus.OK);
+          } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
+          }
+}
+    
+    
     
 }

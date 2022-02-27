@@ -42,6 +42,8 @@ public class Type implements Serializable {
     private Integer id;
     @Column(name = "Nom")
     private String nom;
+    @Column(name = "couleur")
+    private String couleur;
     @OneToMany(mappedBy = "type")
      @JsonIgnore
     private List<Signalement> signalementList;
@@ -52,6 +54,16 @@ public class Type implements Serializable {
     public Type(Integer id) {
         this.id = id;
     }
+
+    public String getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(String couleur) {
+        this.couleur = couleur;
+    }
+    
+    
 
     public Integer getId() {
         return id;

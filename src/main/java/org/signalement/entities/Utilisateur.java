@@ -55,6 +55,8 @@ public class Utilisateur implements Serializable {
     private String username;
     @Column(name = "Password")
     private String password;
+    @Column(name = "Tokennotification")
+    private String notification;
      @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<Signalement> signalementList;
@@ -70,6 +72,14 @@ public class Utilisateur implements Serializable {
         this.email = email;
         this.dateinsc = dateinsc;
         this.username = username;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
     }
     
     

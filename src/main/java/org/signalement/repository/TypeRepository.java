@@ -15,4 +15,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface TypeRepository extends JpaRepository<Type, Integer> {
     @Query(value="select nom from type",nativeQuery=true)
     public List<String>getListNom();
+    
+    @Query(value="select * from type",nativeQuery=true)
+    public List<Type>getListeType();
 }

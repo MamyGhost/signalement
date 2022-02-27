@@ -30,9 +30,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.security.MessageDigest;
+import java.text.ParseException;
 import net.minidev.json.JSONObject;
+import org.signalement.repository.SignalementRepository;
 import org.signalement.repository.TokenmobileRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -49,6 +52,10 @@ public class UserFrontControl {
       
      @Autowired
     private TokenfrontRepository tokenfrontRepository;
+     
+        
+     @Autowired
+    private SignalementRepository signalementRepository;
      
         
      @PostMapping("/wb/userfront/login")
@@ -93,13 +100,13 @@ public class UserFrontControl {
                
                HttpHeaders headers = new HttpHeaders();
                headers.add("Authorization","Bearer " +sha1);
-               headers.add("RegionID",user.getRegion().getId().toString());
+               //headers.add("RegionID",user.getRegion().getId().toString());
                // return new ResponseEntity<>(
                //  uData, headers, HttpStatus.OK);
                //return ResponseEntity.ok().headers(headers).body(uData);
-               JSONObject jo = new JSONObject();
-               jo.put("message", "Login succesful");
-               return new ResponseEntity<>(jo.toJSONString(),headers, HttpStatus.OK);
+              // JSONObject jo = new JSONObject();
+               //jo.put("message", "Login succesful");
+               return new ResponseEntity<>(user.getRegion().getId().toString(),headers, HttpStatus.OK);
           }
         }
         
@@ -130,6 +137,8 @@ public class UserFrontControl {
           }
 
         }
+        
+    
      
 }
 

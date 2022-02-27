@@ -24,6 +24,7 @@ import org.signalement.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,22 +39,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author Mamitiana
  */
 @RestController
+@CrossOrigin
 public class RegionControl {
     
      @Autowired
     private RegionRepository regionRepository;
      
-     // @GetMapping("/wb/region/{id}/signalement")
-     //    public ResponseEntity<List<Signalement>> getSignalementById(@PathVariable("id") int id) {
-     //      Region r = regionRepository.findById(id).get();
-     //      List<Signalement> sData = r.getSignalementList();
-
-     //      if (!sData.isEmpty()) {
-     //        return new ResponseEntity<>(sData, HttpStatus.OK);
-     //      } else {
-     //        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Signalement non trouve");
-     //      }
-     //    }
+      @GetMapping("/region")
+         public ResponseEntity<List<Region>> getSignalementById() {
+           List<Region> r = regionRepository.findAll();
+           return new ResponseEntity<>(r, HttpStatus.OK);
+          }
+         
         
         
      

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class FcmSettings {
   private String serviceAccountFile;
 
+
   public String getServiceAccountFile() {
     return this.serviceAccountFile;
   }
