@@ -39,7 +39,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author Mamitiana
  */
 @RestController
-@CrossOrigin
+@CrossOrigin(value="*")
 public class RegionControl {
     
      @Autowired
