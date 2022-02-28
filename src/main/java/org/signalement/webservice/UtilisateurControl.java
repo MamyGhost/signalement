@@ -248,9 +248,9 @@ public class UtilisateurControl {
          if (name != null && name.length() > 0) {
             try {
                // Create the file at server
-               File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+              // File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
 
-               BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+             //  BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
                
                 
                 String dataImage = Base64.encode(fileData.getBytes());
@@ -299,8 +299,8 @@ public class UtilisateurControl {
                 
                 
                 System.out.println(data);
-               stream.write(fileData.getBytes());
-               stream.close();
+            //   stream.write(fileData.getBytes());
+             //  stream.close();
                Photo photo=new Photo();
               // photo.setPhoto(fileData.getOriginalFilename());
                photo.setPhoto(valiny);
@@ -308,7 +308,7 @@ public class UtilisateurControl {
                photoRepository.save(photo);
                photolist.add(new Photo(photo.getId(),photo.getPhoto()));
 
-               System.out.println("Write file: " + serverFile);
+             //  System.out.println("Write file: " + serverFile);
             } catch (Exception e) {
                System.out.println("Error Write file: " + name);
                System.out.println("Exeption"+e.getMessage());
