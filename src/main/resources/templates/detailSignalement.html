@@ -87,7 +87,7 @@
                                 <div class="row justify-content-center">
                                     <div class="col-6"> 
                                         <th:block th:each="image:${photos}">
-                                            <img th:src="@{/img/{m}(m=${image.getPhoto()})}" style="width:100%">
+                                            <img th:src="${image.getPhoto()}" style="width:100%">
                                         </th:block>
                                     </div>
                                 </div>
