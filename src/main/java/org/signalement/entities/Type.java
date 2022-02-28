@@ -51,6 +51,14 @@ public class Type implements Serializable {
     public Type() {
     }
 
+    public Type(Integer id, String nom, String couleur) {
+        this.id = id;
+        this.nom = nom;
+        this.couleur = couleur;
+    }
+    
+    
+
     public Type(Integer id) {
         this.id = id;
     }

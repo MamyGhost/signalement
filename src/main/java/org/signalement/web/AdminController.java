@@ -132,12 +132,14 @@ public class AdminController {
         Signalement s=signalementRepository.findById(id).get();
         Region r = regionRepository.findById(regionid).get();
         s.setRegion(r);
+        Type typa =  typeRepository.findById(2).get();
         Region rdb = new Region();
         rdb.setId(r.getId());
         rdb.setNom(r.getNom());
         SignalementmDB sdb =  signalementRepositorymDB.findById(id).get();
         sdb.setId(s.getId());
         sdb.setRegion(rdb);
+        s.setType(typa);
         signalementRepository.save(s);
         Signalnew vao=new Signalnew();
         vao.setTitre(titre);
@@ -147,8 +149,7 @@ public class AdminController {
         nmdb.setId(nouveau.getId());
         nmdb.setTitre(nouveau.getTitre());
         sdb.setSignalnew(nmdb);
-        Type typa =  typeRepository.findById(2).get();
-        sdb.setType(typa);
+        sdb.setType(new Type(typa.getId(),typa.getNom(),typa.getCouleur()));
         signalementRepositorymDB.save(sdb);
         return "redirect:/admin/affectation";
    
